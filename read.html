@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#1B3A5C" />
 <meta name="description" content="Digital archive of De Formulieren — the speculative annual report, posters, forms, and case files. AI & Society, Leiden 2026." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta property="og:title" content="De Formulieren — Public Register" />
+<meta property="og:description" content="The full archive: a 40-page annual report, posters, forms, certificates, and case files. A speculative Dutch government authority." />
+<meta property="og:image" content="og.jpg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>De Formulieren — Public Register</title>
 
 <style>
@@ -96,13 +102,17 @@ a:hover{text-decoration:underline}
 .card{
   background:#fff;border:1px solid var(--rule);
   display:flex;flex-direction:column;
-  transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease-out;
   text-decoration:none;color:var(--ink);
   position:relative;overflow:hidden;
+  opacity:0;transform:translateY(20px);
 }
-.card:hover{transform:translateY(-3px);
-  box-shadow:0 10px 32px rgba(27,58,92,0.18);
+.card.reveal{opacity:1;transform:translateY(0)}
+.card:hover{transform:translateY(-4px);
+  box-shadow:0 14px 38px rgba(27,58,92,0.2);
   border-color:var(--gold);text-decoration:none;}
+.card:hover .thumb{transform:scale(1.04)}
+.card .thumb{transition:transform 0.4s ease}
 .card .thumb{
   height:200px;background:var(--cream2);
   background-size:cover;background-position:center top;
@@ -175,7 +185,11 @@ footer a{color:var(--blue)}
     <span style="opacity:0.6">·</span>
     <span>Rijksdienst voor Gedeeld Beheer</span>
   </div>
-  <a href="./">← Play the story</a>
+  <span style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <a href="wall.html">The wall</a>
+    <a href="about.html">About</a>
+    <a href="./">← Play the story</a>
+  </span>
 </div>
 
 <!-- Hero -->
@@ -338,5 +352,22 @@ footer a{color:var(--blue)}
   </div>
 </footer>
 
+<script>
+// Scroll-reveal for cards
+const cards = document.querySelectorAll('.card');
+if('IntersectionObserver' in window){
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach((e, i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=> e.target.classList.add('reveal'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, {rootMargin:'0px 0px -40px 0px'});
+  cards.forEach(c => obs.observe(c));
+} else {
+  cards.forEach(c => c.classList.add('reveal'));
+}
+</script>
 </body>
 </html>

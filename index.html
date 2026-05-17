@@ -7,6 +7,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="description" content="A 3-minute story about a Dutch farmer, an app, and a form. AI & Society, Leiden 2026." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta property="og:title" content="De Formulieren — A Stewardship Story" />
+<meta property="og:description" content="A 3-minute story about a Dutch farmer, an app, and a form the app is connected to. Make two choices, write one sentence in your own words." />
+<meta property="og:image" content="og.jpg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>De Formulieren — A Stewardship Story</title>
 
 <style>
@@ -543,7 +549,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
     <cite>— Senior farm advisor, Eastern Netherlands, 16 April 2026</cite>
   </div>
   <button class="start-btn" onclick="startGame(event)">Begin the night &nbsp;→</button>
-  <div style="margin-top:14px"><a href="read.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">Or read the full archive →</a></div>
+  <div style="margin-top:16px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center"><a href="read.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">Read the archive →</a><a href="wall.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">The wall →</a><a href="about.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">About →</a></div>
   <div class="credits">
     AI &amp; Society · Universiteit Leiden · May 2026 · M. AhmadiTeshnizi<br>
     Illustrations by FLUX.1 [dev] via fal.ai · The Authority does not exist
@@ -580,6 +586,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
   <p class="coda" id="end-coda"></p>
   <div class="actions">
     <button onclick="restart(event)">Play again</button>
+    <button id="wall-btn" onclick="location.href='wall.html'">See it on the wall →</button>
     <button id="share-btn" onclick="shareAnswer(event)">Share what you wrote</button>
     <button class="primary" onclick="location.href='read.html'">Read the full archive →</button>
   </div>
@@ -1019,6 +1026,27 @@ function buildForm(beat){
     });
     state.rgb14_3 += 1;
     $('#rgbcount').textContent = state.rgb14_3;
+    // Save to localStorage for wall.html
+    try{
+      const stored = JSON.parse(localStorage.getItem('de_formulieren_filings') || '[]');
+      const today = new Date();
+      const month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()];
+      const date = `${today.getDate()} ${month} ${today.getFullYear()}`;
+      const nextNo = String(1000 + stored.length + 1).padStart(4,'0');
+      const body = [];
+      if(state.form.invisible_work) body.push(state.form.invisible_work);
+      if(state.form.what_work_needs) body.push(state.form.what_work_needs);
+      stored.push({
+        no:`14.3-V${nextNo}`,
+        name:state.form.name || 'Anonymous',
+        loc:'Filed via the booth',
+        date,
+        body,
+        isMine:true,
+        ts:Date.now()
+      });
+      localStorage.setItem('de_formulieren_filings', JSON.stringify(stored));
+    }catch(e){}
     // Animate seal onto the form
     const sealed = document.createElement('div');
     sealed.className='sealed';sealed.textContent='SENT';
@@ -1059,8 +1087,10 @@ function showEnd(beat){
       + `<span class="sig">— ${escapeHtml(state.form.name||'Anonymous')}</span>`;
     wordsEl.appendChild(block);
     $('#share-btn').style.display='inline-block';
+    $('#wall-btn').style.display='inline-block';
   } else {
     $('#share-btn').style.display='none';
+    $('#wall-btn').style.display='none';
   }
 
   // Path map
