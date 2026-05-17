@@ -231,6 +231,90 @@ input,textarea{user-select:text;-webkit-user-select:text}
   100%{opacity:0;transform:translateY(-22px)}
 }
 
+/* ─── Case selection screen ─────────────────────────────────────────────── */
+#case-select{
+  position:absolute;inset:0;z-index:11;
+  background:radial-gradient(ellipse at center, #14264a 0%, #050709 100%);
+  display:none;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:24px 22px;overflow-y:auto;opacity:0;transition:opacity 0.8s ease-out;
+}
+#case-select.show{display:flex;opacity:1}
+#case-select.hide{opacity:0;pointer-events:none}
+#case-select .top-stamp{font-size:10px;letter-spacing:0.30em;color:var(--gold);text-transform:uppercase;margin:8px 0 14px;text-align:center}
+#case-select h2{
+  font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
+  font-size:clamp(28px,4vw,42px);line-height:1.05;color:#fff;margin:0 0 6px;text-align:center;
+}
+#case-select .sub{
+  font-family:'New York','Georgia',serif;font-size:15px;color:var(--cream2);
+  font-style:italic;max-width:540px;margin:0 0 24px;text-align:center;line-height:1.5;
+}
+.case-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:18px;max-width:1000px;width:100%;
+}
+.case-card{
+  background:rgba(245,241,232,0.04);border:1px solid rgba(201,185,142,0.4);
+  cursor:pointer;display:flex;flex-direction:column;overflow:hidden;
+  transition:transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  position:relative;animation:fade-in-up 0.6s ease-out backwards;
+}
+.case-card:nth-child(1){animation-delay:0.1s}
+.case-card:nth-child(2){animation-delay:0.25s}
+.case-card:nth-child(3){animation-delay:0.4s}
+@keyframes fade-in-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.case-card:hover{
+  transform:translateY(-4px) scale(1.01);
+  border-color:var(--gold);background:rgba(184,153,88,0.10);
+  box-shadow:0 14px 38px rgba(0,0,0,0.5);
+}
+.case-card .case-thumb{
+  height:160px;background-size:cover;background-position:center;
+  position:relative;border-bottom:1px solid rgba(201,185,142,0.4);
+}
+.case-card .case-thumb::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%);
+}
+.case-card .case-no{
+  position:absolute;top:10px;left:10px;z-index:2;
+  background:rgba(10,8,4,0.7);color:var(--gold);
+  font-size:9px;letter-spacing:0.22em;padding:4px 10px;font-weight:700;
+}
+.case-card .case-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column}
+.case-card h3{
+  font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
+  font-size:22px;color:#fff;margin:0 0 4px;line-height:1.15;
+}
+.case-card .case-loc{
+  font-size:10px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;
+  margin:0 0 10px;font-weight:600;
+}
+.case-card .case-blurb{
+  font-family:'New York','Georgia',serif;font-size:14.5px;color:var(--cream2);
+  margin:0 0 14px;line-height:1.5;flex:1;
+}
+.case-card .case-play{
+  appearance:none;background:transparent;color:var(--gold);
+  border:1px solid var(--gold);padding:9px 18px;
+  font-size:10px;letter-spacing:0.24em;text-transform:uppercase;font-weight:700;
+  cursor:pointer;font-family:'Helvetica Neue',sans-serif;transition:background 0.2s,color 0.2s;
+  align-self:flex-start;
+}
+.case-card:hover .case-play{background:var(--gold);color:#1a1206}
+.case-card.played::before{
+  content:"PLAYED";position:absolute;top:10px;right:10px;z-index:2;
+  background:rgba(58,110,75,0.85);color:#fff;
+  font-size:9px;letter-spacing:0.22em;padding:4px 10px;font-weight:700;
+}
+.case-back{
+  margin-top:24px;color:var(--cream2);text-decoration:none;
+  font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+  border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px;opacity:0.7;
+  transition:opacity 0.2s;
+}
+.case-back:hover{opacity:1;color:var(--gold)}
+
 /* ─── Title card ───────────────────────────────────────────────────────── */
 #title{
   position:absolute;inset:0;z-index:10;
@@ -737,6 +821,15 @@ input,textarea{user-select:text;-webkit-user-select:text}
   </div>
 </div>
 
+<!-- ════════ Case selection ════════════════════════════════════════════ -->
+<div id="case-select">
+  <div class="top-stamp">Rijksdienst voor Gedeeld Beheer · Public Register</div>
+  <h2>Choose a case</h2>
+  <p class="sub">Three nights from the case files. Each is a different farmer, a different choice, a different ending.</p>
+  <div class="case-grid" id="case-grid"></div>
+  <a class="case-back" href="#" onclick="backToTitle(event)">← Back to title</a>
+</div>
+
 <!-- ════════ Chapter progress ════════════════════════════════════════════ -->
 <div class="progress" id="progress" style="display:none"><div class="progress-fill" id="progress-fill"></div></div>
 <div class="chapter-dots" id="chapter-dots" style="display:none">
@@ -805,6 +898,40 @@ const SCENES = {
     cert:     'assets/game/s06_certificate.jpg',
     interior: 'assets/game/s07_barn_interior.jpg',
     kitchen:  'assets/game/s08_kitchen_window.jpg',
+    // Case 5.2 — The Dictation (Hendrika)
+    h_office:    'assets/game/h01_office.jpg',
+    h_dictating: 'assets/game/h02_dictating.jpg',
+    h_writing:   'assets/game/h03_writing.jpg',
+    h_hands:     'assets/game/h04_hands_teapot.jpg',
+    // Case 5.4 — The Spots (Mariska)
+    m_leaves:   'assets/game/m01_leaves_spots.jpg',
+    m_phone:    'assets/game/m02_phone_garden.jpg',
+    m_allotment:'assets/game/m03_allotment_wide.jpg',
+    m_notebook: 'assets/game/m04_notebook_bench.jpg',
+  }
+};
+
+const CASES = {
+  sensor: {
+    no:'5.3', title:'The Sensor',
+    loc:'Voorst · dairy · night',
+    blurb:'A sensor battery dies in the rain. Your score is at stake. What do you stay up for?',
+    thumb:'assets/game/s02_phone_battery.jpg',
+    start:'intro'
+  },
+  dictation: {
+    no:'5.2', title:'The Dictation',
+    loc:'Salland · dairy · afternoon',
+    blurb:'The government wants a machine-readable manifest. You have farmed this land for fifty-one years. What goes in the record?',
+    thumb:'assets/game/h02_dictating.jpg',
+    start:'h_intro'
+  },
+  spots: {
+    no:'5.4', title:'The Spots',
+    loc:'Salland · vegetables · morning',
+    blurb:'Strange dark spots on your potato leaves. You do not know what this is. Who do you trust first?',
+    thumb:'assets/game/m02_phone_garden.jpg',
+    start:'m_intro'
   }
 };
 
@@ -937,6 +1064,191 @@ const BEATS = {
     body:'You lost something the app can\'t give back. But you wrote a sentence the government had to read. <em>The work you did was old. The only new thing is that someone wrote it down.</em>',
     coda:'Filed in the public register · №142.',
     missedHint:"You took the harder way. Try <strong>A</strong> at the morning to see what the easy way looks like. And what it costs."
+  },
+
+  /* ════════ CASE 5.2 — The Dictation (Hendrika) ════════════════════ */
+  h_intro: {
+    bg:'h_office', chapter:'I', time:'13:50',
+    meta:'Cooperative office, Salland · 14 May 2031',
+    text:'You are <strong>Hendrika</strong>. You are 73. You have farmed this land for 51 years. Today the cooperative office called you in. The government wants a "machine-readable manifest" of your herd. You have never used a computer.',
+    next:'h_choice1'
+  },
+  h_choice1: {
+    bg:'h_office', chapter:'II', time:'13:52',
+    meta:'The advisor offers you a choice',
+    text:'The advisor places a paper form on the table. "We can fill this in for you," she says. "Or you can dictate. Whatever you like."',
+    choices:[
+      {key:'A', label:'Sign the form. Let her fill in the numbers.',
+        hint:'You go home in twenty minutes. The manifest will look fine.',
+        next:'h_template_end', tag:'h_template'},
+      {key:'B', label:'Sit down. Begin to talk.',
+        hint:'This will take the afternoon. The advisor will write it down.',
+        next:'h_dictate_begin', tag:'h_dictate'},
+    ]
+  },
+  h_dictate_begin: {
+    bg:'h_dictating', chapter:'III', time:'13:54',
+    meta:'You begin to speak',
+    text:'You start with the day you took over the farm in 1980. The advisor opens her notepad. The kettle is on in the corner.',
+    next:'h_dictate_choice'
+  },
+  h_dictate_choice: {
+    bg:'h_writing', chapter:'III', time:'14:08',
+    meta:'You have the room and the time',
+    text:'There are decades to choose from. What do you tell her?',
+    choices:[
+      {key:'A', label:'Keep it short. Numbers. Calving dates. Antibiotic events.',
+        hint:'It is all true. The advisor will be done in fifteen minutes.',
+        next:'h_short_end', tag:'h_short'},
+      {key:'B', label:'Tell her about Trijntje. The calf in 2018.',
+        hint:'The advisor sets the notepad down and listens with both hands.',
+        next:'h_form', tag:'h_long', refuse:true},
+    ]
+  },
+  h_form: {
+    type:'form', bg:'h_hands', chapter:'IV', time:'15:24',
+    meta:'92 minutes of dictation, on paper',
+    title:'Stewardship Statement',
+    lede:'The advisor is writing everything down. What do you want recorded?',
+    fields:[
+      {id:'name', label:'Your name (or initials)', type:'input', placeholder:'H. de V.', maxlength:40},
+      {id:'invisible_work', label:'A moment that shaped your farming',
+        type:'textarea', placeholder:'There was a calf in March 2018…', maxlength:280, num:'1.'},
+      {id:'what_work_needs', label:'What does your work need that no app asks about?',
+        type:'textarea', placeholder:'You have to watch the way she breathes before you offer her food.', maxlength:280, num:'2.'},
+      {id:'rating', label:'How does this story land for you?',
+        type:'stars', max:5, num:'3.',
+        helper:'Stepping out of the story. Your honest rating helps me improve.'},
+      {id:'feedback', label:'Anything for the maker? (optional)',
+        type:'textarea', placeholder:'One thing that landed, one thing that didn\'t…', maxlength:280, num:'4.'},
+    ],
+    submit:'Sign and send',
+    next:'h_recog'
+  },
+  h_recog: {
+    bg:'cert', chapter:'IV', time:'9 June 2031',
+    meta:'Three weeks later · A letter from the government',
+    sealStamp:true,
+    text:'A cream envelope arrives. The Authority writes: "We accept your account of your farming as a complete record. Stewardship Recognition №214." Your manifest is the words you said. Nothing was filled in for you.',
+    next:'h_long_end'
+  },
+  /* — endings — */
+  h_template_end: {
+    end:true, kind:'preact',
+    title:'The advisor signed for you.',
+    body:'Plausible numbers, generated and submitted. <em>You never said a word.</em> The farm you have run for fifty-one years is now a one-page manifest someone else wrote.',
+    coda:'RVO accepted. You drove home at 14:10.',
+    missedHint:'If you had sat down and dictated, the register would have something it cannot have any other way. Pick <strong>B</strong> at the office to see.'
+  },
+  h_short_end: {
+    end:true, kind:'preact',
+    title:'You gave them the numbers.',
+    body:'Everything you said was true. <em>Most of what you knew was not asked.</em> The advisor thanks you. You drive home thinking about all the things you did not say.',
+    coda:'Short manifest. Accepted by RVO.',
+    missedHint:'You could have told her about Trijntje. Pick <strong>B</strong> at the dictation to see what gets into the register when you do.'
+  },
+  h_long_end: {
+    end:true, kind:'postact',
+    title:'You told her about Trijntje.',
+    body:'<em>What you said is now in the public register.</em> Your numbers are not on a platform. The story of the calf is. So is the way she breathed.',
+    coda:'Filed under Article 14(3), with the calf.',
+    missedHint:'There is a faster path. The advisor would have signed in your place. Try it to feel the difference.'
+  },
+
+  /* ════════ CASE 5.4 — The Spots (Mariska) ═════════════════════════ */
+  m_intro: {
+    bg:'m_leaves', chapter:'I', time:'10:55',
+    meta:'Your potato field, Salland · 13 May 2031',
+    text:'You are <strong>Mariska</strong>. Six hectares of organic vegetables. You walk the rows. Strange dark concentric spots on the underside of the leaves. <em>Two days ago they were clean.</em> You have no idea what this is.',
+    next:'m_phone'
+  },
+  m_phone: {
+    bg:'m_phone', chapter:'II', time:'10:57',
+    meta:'You take out your phone',
+    text:'The cooperative\'s intake form opens. A 47-option dropdown. A photo, maximum 2 MB. Your photo is <strong>4.1 MB</strong>. The field for "describe what you see" accepts forty characters.',
+    choices:[
+      {key:'A', label:'Fight the form. Compress the photo. Guess the category.',
+        hint:'You will be submitting something within the hour. The form is correct.',
+        next:'m_form_path', tag:'m_form'},
+      {key:'B', label:'Message your advisor on WhatsApp instead.',
+        hint:'No category required. No file limit. Just type what you see.',
+        next:'m_whatsapp', tag:'m_whatsapp'},
+    ]
+  },
+  m_form_path: {
+    bg:'m_phone', chapter:'III', time:'12:30', notif:'gap',
+    score:-3, scoreFlash:'bad', shake:true, redFlash:true,
+    meta:'The form fights back',
+    text:'The form rejects the photo. You compress it badly. You guess "Foliar Blight Cat. 12." Submit. Wait. <strong>Three days later</strong>, the cooperative replies: "Please refile under the proper category."',
+    choices:[{key:'→', label:'By the time you act, half the crop is lost.', next:'m_form_lose_end'}]
+  },
+  m_whatsapp: {
+    bg:'m_phone', chapter:'III', time:'11:01',
+    meta:'Four minutes later',
+    text:'Three replies arrive. <em>"Looks like Phytophthora infestans. Check the underside, now."</em> from a peer advisor in Twente. <em>"Same pattern, 2018."</em> from an elderly member in Salland. <em>"Yes. Act today."</em> from your own advisor.',
+    next:'m_whatsapp_choice'
+  },
+  m_whatsapp_choice: {
+    bg:'m_allotment', chapter:'III', time:'11:08',
+    meta:'You stand at the edge of the field',
+    text:'The diagnosis is informal. No platform has logged it. No regulator has approved it. <em>Three people you trust are telling you the same thing.</em>',
+    choices:[
+      {key:'A', label:'Act now. Underside inspection. Prepare to spray.',
+        hint:'You trust the people you know. The platform learns later.',
+        next:'m_form', tag:'m_act', refuse:true},
+      {key:'B', label:'Wait for the cooperative\'s official process.',
+        hint:'Stay compliant. The diagnosis will catch up.',
+        next:'m_wait_end', tag:'m_wait'},
+    ]
+  },
+  m_form: {
+    type:'form', bg:'m_notebook', chapter:'IV', time:'11:12',
+    meta:'You acted. Now the cooperative wants the record.',
+    title:'Provenance Record · peer knowledge',
+    lede:'You acted before the platform learned the word. The cooperative would like to record what you knew.',
+    fields:[
+      {id:'name', label:'Your name (or initials)', type:'input', placeholder:'M. t. H.', maxlength:40},
+      {id:'invisible_work', label:'What did you see that no form would have asked?',
+        type:'textarea', placeholder:'Dark concentric spots on the underside. Wet soil…', maxlength:280, num:'1.'},
+      {id:'what_work_needs', label:'Who did you trust, and why?',
+        type:'textarea', placeholder:'My advisor. A peer in Twente. The elderly woman in Salland who saw it in 2018…', maxlength:280, num:'2.'},
+      {id:'rating', label:'How does this story land for you?',
+        type:'stars', max:5, num:'3.',
+        helper:'Stepping out of the story. Your honest rating helps me improve.'},
+      {id:'feedback', label:'Anything for the maker? (optional)',
+        type:'textarea', placeholder:'One thing that landed, one thing that didn\'t…', maxlength:280, num:'4.'},
+    ],
+    submit:'Sign and send',
+    next:'m_act_recog'
+  },
+  m_act_recog: {
+    bg:'cert', chapter:'IV', time:'27 June 2031',
+    meta:'Three weeks later · A letter from the cooperative',
+    sealStamp:true,
+    text:'A cream envelope. "<strong>Provenance Record №2,318.</strong> Your testimony, together with the testimony of the two members who identified the pattern, is filed in the public register." Half your crop is saved.',
+    next:'m_act_end'
+  },
+  /* — endings — */
+  m_form_lose_end: {
+    end:true, kind:'preact',
+    title:'The form was correct. The crop is lost.',
+    body:'You followed the process. The process is correct. <em>The potatoes are gone.</em> The form had a field for everything except urgency.',
+    coda:'Compliance maintained. Crop not.',
+    missedHint:'You could have messaged your advisor on WhatsApp. Try <strong>B</strong> at the start to see what four minutes can save.'
+  },
+  m_act_end: {
+    end:true, kind:'postact',
+    title:'You acted on what you knew.',
+    body:'The platform had no field for this. <em>The cooperative made one.</em> Half the crop is saved because three people you know identified a disease in four minutes.',
+    coda:'Provenance Record №2,318 in the public register.',
+    missedHint:'You could have waited for the official process. Try <strong>B</strong> at the field to see what that costs.'
+  },
+  m_wait_end: {
+    end:true, kind:'preact',
+    title:'You waited for the official process.',
+    body:'The cooperative\'s diagnosis is correct. <em>It is also too late.</em> Half the crop is gone. The platform now has a tidy record of what happened.',
+    coda:'Compliant. Empty rows.',
+    missedHint:'You could have trusted the people you know. Try <strong>A</strong> at the field to see what acting in time looks like.'
   }
 };
 
@@ -950,7 +1262,21 @@ const state = {
   current: null,
   history: [],
   form: {},
+  caseId: 'sensor',  // which case is being played
 };
+
+// Track which cases the visitor has played (across sessions)
+function getPlayedCases(){
+  try { return JSON.parse(localStorage.getItem('de_formulieren_played') || '[]'); }
+  catch(e){ return []; }
+}
+function markCasePlayed(id){
+  const played = getPlayedCases();
+  if(!played.includes(id)){
+    played.push(id);
+    try { localStorage.setItem('de_formulieren_played', JSON.stringify(played)); } catch(e){}
+  }
+}
 
 const $ = sel => document.querySelector(sel);
 const stage = $('#stage');
@@ -1110,11 +1436,66 @@ function startGame(ev){
   ensureAudio();
   bgmPlay();
   titleCard.classList.add('hide');
-  hud.style.display='flex';
-  $('#progress').style.display='block';
-  $('#chapter-dots').style.display='flex';
+  setTimeout(()=>{ titleCard.style.display='none'; showCaseSelect(); }, 900);
+}
+
+function showCaseSelect(){
+  const sel = $('#case-select');
+  const grid = $('#case-grid');
+  const played = getPlayedCases();
+  grid.innerHTML = '';
+  Object.entries(CASES).forEach(([id, c])=>{
+    const card = document.createElement('div');
+    card.className = 'case-card' + (played.includes(id) ? ' played' : '');
+    card.innerHTML = `
+      <div class="case-thumb" style="background-image:url('${c.thumb}')">
+        <span class="case-no">Case ${c.no}</span>
+      </div>
+      <div class="case-body">
+        <h3>${c.title}</h3>
+        <p class="case-loc">${c.loc}</p>
+        <p class="case-blurb">${c.blurb}</p>
+        <button class="case-play">Play this case →</button>
+      </div>
+    `;
+    card.onclick = (ev) => { tapfeedback(card, ev); setTimeout(()=>startCase(id), 220); };
+    grid.appendChild(card);
+  });
+  sel.style.display = 'flex';
+  requestAnimationFrame(()=>sel.classList.add('show'));
+}
+
+function startCase(id){
+  const c = CASES[id];
+  if(!c) return;
+  state.caseId = id;
+  // Reset state for fresh playthrough
+  state.score = 94; state.rgb14_3 = 0; state.path = []; state.history = []; state.form = {};
+  $('#score').textContent = 94; $('#score').className = 'val good';
+  $('#rgbcount').textContent = 0;
+  // Hide case select
+  const sel = $('#case-select');
+  sel.classList.remove('show'); sel.classList.add('hide');
+  setTimeout(()=>{ sel.style.display = 'none'; sel.classList.remove('hide'); }, 700);
+  // Show HUD/progress
+  hud.style.display = 'flex';
+  $('#progress').style.display = 'block';
+  $('#chapter-dots').style.display = 'flex';
   refreshMuteBtn();
-  setTimeout(()=>{ titleCard.style.display='none'; renderBeat('intro'); }, 900);
+  // Clear scenes
+  stage.querySelectorAll('.scene').forEach(s=>s.remove());
+  endCard.classList.remove('show');
+  updateProgress('I');
+  setTimeout(()=>renderBeat(c.start), 500);
+}
+
+function backToTitle(ev){
+  if(ev) ev.preventDefault();
+  const sel = $('#case-select');
+  sel.classList.remove('show'); sel.classList.add('hide');
+  setTimeout(()=>{ sel.style.display = 'none'; sel.classList.remove('hide'); }, 700);
+  titleCard.style.display = 'flex';
+  setTimeout(()=>titleCard.classList.remove('hide'), 20);
 }
 
 function updateProgress(chapter){
@@ -1420,14 +1801,17 @@ function buildForm(beat){
       if(state.form.invisible_work) body.push(state.form.invisible_work);
       if(state.form.what_work_needs) body.push(state.form.what_work_needs);
       const rating = parseInt(state.form.rating || '0', 10) || 0;
+      const caseLabel = { sensor:'Voorst · dairy', dictation:'Salland · dairy', spots:'Salland · vegetables' }[state.caseId] || 'Filed via the booth';
+      const caseTitle = { sensor:'Case 5.3', dictation:'Case 5.2', spots:'Case 5.4' }[state.caseId] || '14.3';
       stored.push({
-        no:`14.3-V${nextNo}`,
+        no:`${caseTitle}-V${nextNo}`,
         name:state.form.name || 'Anonymous',
-        loc:'Filed via the booth',
+        loc:caseLabel,
         date,
         body,
         rating,
         feedback:state.form.feedback || '',
+        caseId:state.caseId,
         isMine:true,
         ts:Date.now()
       });
@@ -1458,6 +1842,9 @@ function transitionTo(id){
 }
 
 function showEnd(beat){
+  // Mark this case as played
+  if(state.caseId) markCasePlayed(state.caseId);
+
   $('#end-title').innerHTML = beat.title;
   $('#end-body').innerHTML  = beat.body;
   $('#end-coda').innerHTML  = beat.coda;
@@ -1491,10 +1878,21 @@ function showEnd(beat){
     $('#wall-btn').style.display='none';
   }
 
-  // Path map
-  const labels = ['Start',
-    state.path.includes('went')?'Went out':'Slept',
-    state.path.includes('preact')?'Lied':'Wrote'];
+  // Path map (per case)
+  let labels = ['Start', '...', '...'];
+  if(state.caseId === 'sensor'){
+    labels = ['Start',
+      state.path.includes('went')?'Went out':'Slept',
+      state.path.includes('preact')?'Lied':'Wrote'];
+  } else if(state.caseId === 'dictation'){
+    if(state.path.includes('h_template')) labels = ['Start','Signed','—'];
+    else if(state.path.includes('h_short')) labels = ['Start','Dictated','Short'];
+    else if(state.path.includes('h_long')) labels = ['Start','Dictated','Trijntje'];
+  } else if(state.caseId === 'spots'){
+    if(state.path.includes('m_form')) labels = ['Start','Form','Lost'];
+    else if(state.path.includes('m_wait')) labels = ['Start','WhatsApp','Waited'];
+    else if(state.path.includes('m_act')) labels = ['Start','WhatsApp','Acted'];
+  }
   const map = $('#end-pathmap');
   map.innerHTML = '';
   labels.forEach((lab,i)=>{
@@ -1525,31 +1923,19 @@ function restart(ev){
   state.score=94; state.rgb14_3=0; state.path=[]; state.history=[]; state.form={};
   $('#score').textContent=94; $('#score').className='val good';
   $('#rgbcount').textContent=0;
-  updateProgress('I');
+  // Hide HUD, show case select again
+  hud.style.display = 'none';
+  $('#progress').style.display = 'none';
+  $('#chapter-dots').style.display = 'none';
   stage.querySelectorAll('.scene').forEach(s=>s.remove());
-  renderBeat('intro');
+  showCaseSelect();
 }
 
 function tryOtherEnding(ev){
   tapfeedback(ev?.currentTarget, ev);
   endCard.classList.remove('show');
-  // Auto-replay through act I/II quickly, then stop at morning so they pick the other
-  const wentBefore = state.path.includes('went');
-  const liedBefore = state.path.includes('preact');
-  state.score = wentBefore ? 94 : 91;  // preserve the score they had at morning
-  state.rgb14_3 = 0;
-  state.path = wentBefore ? ['went'] : ['slept'];  // keep their Act II choice
-  state.history = [];
-  state.form = {};
-  $('#score').textContent = state.score;
-  $('#score').className = 'val ' + (state.score >= 80 ? 'good' : 'bad');
-  $('#rgbcount').textContent = 0;
-  updateProgress('III');
-  stage.querySelectorAll('.scene').forEach(s=>s.remove());
-  // Jump directly to morning beat — the path-dependent text will be correct
-  // and the user picks the OPPOSITE branch they had last time
-  toast(liedBefore ? 'Now pick B (tell the truth)' : 'Now pick A (lie)');
-  setTimeout(()=>renderBeat('morning'), 400);
+  toast('Replaying this case · pick a different choice');
+  setTimeout(()=>startCase(state.caseId), 400);
 }
 
 async function shareAnswer(ev){
