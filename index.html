@@ -769,6 +769,9 @@ input,textarea{user-select:text;-webkit-user-select:text}
 <!-- ════════ Stage ═════════════════════════════════════════════════════ -->
 <div id="stage"></div>
 
+<!-- ════════ Background music ═══════════════════════════════════════════ -->
+<audio id="bgm" src="assets/audio/ambient.mp3" loop preload="auto" style="display:none"></audio>
+
 <!-- ════════ End card ═══════════════════════════════════════════════════ -->
 <div id="endcard">
   <div class="ribbon" id="end-ribbon">Closing</div>
@@ -973,13 +976,43 @@ function ensureAudio(){
 let muted = false;
 try{ muted = localStorage.getItem('de_formulieren_muted') === '1'; }catch(e){}
 
+function bgmPlay(){
+  if(muted) return;
+  const a = document.getElementById('bgm');
+  if(!a) return;
+  a.volume = 0.18;
+  // Fade in from 0 to target volume
+  a.volume = 0;
+  const target = 0.18;
+  const p = a.play();
+  if(p && p.catch) p.catch(()=>{}); // autoplay block — silent fail
+  let v = 0;
+  const id = setInterval(()=>{
+    v += 0.012;
+    if(v >= target){ a.volume = target; clearInterval(id); }
+    else a.volume = v;
+  }, 80);
+}
+function bgmPause(){
+  const a = document.getElementById('bgm'); if(!a) return;
+  // Fade out
+  const start = a.volume || 0;
+  let v = start;
+  const id = setInterval(()=>{
+    v -= 0.02;
+    if(v <= 0){ a.volume = 0; a.pause(); clearInterval(id); }
+    else a.volume = v;
+  }, 50);
+}
+
 function toggleMute(ev){
   muted = !muted;
   const btn = $('#muteBtn');
   btn.textContent = muted ? '♪̸' : '♪';
   btn.classList.toggle('muted', muted);
   try{ localStorage.setItem('de_formulieren_muted', muted?'1':'0'); }catch(e){}
-  if(!muted) tone(900,0.04,0.035);
+  if(muted) bgmPause();
+  else { bgmPlay(); tone(900,0.04,0.035); }
   if(ev) ev.stopPropagation();
 }
 function refreshMuteBtn(){
@@ -1075,6 +1108,7 @@ function confetti(opts={}){
 function startGame(ev){
   tapfeedback(ev?.currentTarget, ev);
   ensureAudio();
+  bgmPlay();
   titleCard.classList.add('hide');
   hud.style.display='flex';
   $('#progress').style.display='block';
