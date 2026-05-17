@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#1B3A5C" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<meta property="og:title" content="The Wall — De Formulieren" />
+<meta property="og:title" content="The Wall · De Formulieren" />
 <meta property="og:description" content="What people wrote on the form the app does not have." />
 <meta property="og:image" content="og.jpg" />
-<title>The Wall — De Formulieren</title>
+<title>The Wall · De Formulieren</title>
 
 <style>
 :root{
@@ -211,22 +211,22 @@ footer strong{color:var(--ink);font-weight:600}
 // Seeded entries from the Authority's case files (now with ratings)
 const SEED = [
   {no:'14.3-0001', name:'P.B.', loc:'Voorst · dairy', date:'8 May 2031', rating:5,
-   body:["I let her sleep. The rain was real, the cows were calm, and rest is not the same as neglect.",
-         "I do not believe rest and neglect are the same thing — and the app cannot tell them apart."]},
+   body:["I let her sleep. It was raining and the cows were calm.",
+         "Sleep is not the same as neglect. The app can’t tell the difference."]},
   {no:'14.3-0007', name:'R.V.', loc:'Betuwe · orchard', date:'14 Apr 2031', rating:4,
    body:["The frost arrived three days before the platform learned the word. I covered the trees in the dark. It paid me nothing.",
-         "I needed silence, a torch, and the patience to do it twice."]},
+         "I needed silence, a torch, and the patience to do the work twice."]},
   {no:'14.3-0019', name:'M.K.', loc:'Drenthe · goat', date:'2 May 2031', rating:5,
-   body:["The app counted my goats as a herd. They are seventy-three individuals. I know each one's voice."]},
+   body:["The app counted my goats as a herd. They are seventy three individuals. I know each one’s voice."]},
   {no:'14.3-0032', name:'T.D.', loc:'Limburg · poultry', date:'18 Mar 2031', rating:3,
    body:["The audit was happy and the chickens were not. I refuse this trade."]},
   {no:'14.3-0048', name:'K.J.', loc:'Friesland · sheep', date:'27 Apr 2031', rating:5,
    body:["I helped my neighbour for two days while her son was in hospital. There is no field for that.",
-         "I am filing this in case the field appears."]},
+         "I am filing this in case the field appears one day."]},
   {no:'14.3-0061', name:'H.O.', loc:'Twente · cooperative', date:'1 May 2031', rating:4,
-   body:["We declined the private sustainability score. The score was an estimate. This is an account."]},
+   body:["We turned down the private sustainability score. The score was an estimate. This is an account."]},
   {no:'14.3-0073', name:'S.B.', loc:'Voorst · dairy', date:'30 Apr 2031', rating:5,
-   body:["I retired cow #34 because she was tired. The platform marked it 'voluntary cull, suboptimal use'.",
+   body:["I retired cow #34 because she was tired. The platform marked it ‘voluntary cull, suboptimal use’.",
          "That is not what I would call it."]},
   {no:'14.3-0084', name:'A.M.', loc:'Zeeland · arable', date:'24 Mar 2031', rating:4,
    body:["The rotation the app recommended would have killed the soil. I read the soil with my hands.",
@@ -263,7 +263,7 @@ const fiveStars = allFilings.filter(f => f.rating === 5).length;
 const statsEl = document.getElementById('stats');
 statsEl.innerHTML = `
   <div class="stat"><div class="lbl">Filings on the register</div><div class="val">${total}</div><div class="sub">across regions and forms</div></div>
-  <div class="stat"><div class="lbl">Average rating</div><div class="val">${avg ? avg.toFixed(1) : '—'} <span style="font-size:0.55em;color:var(--gold)">★</span></div><div class="sub">${ratings.length} ratings collected</div></div>
+  <div class="stat"><div class="lbl">Average rating</div><div class="val">${avg ? avg.toFixed(1) : 'no ratings'} <span style="font-size:0.55em;color:var(--gold)">${avg?'★':''}</span></div><div class="sub">${ratings.length} ratings collected</div></div>
   <div class="stat"><div class="lbl">Five-star filings</div><div class="val">${fiveStars}</div><div class="sub">strongest sentences on file</div></div>
   <div class="stat"><div class="lbl">Yours on this device</div><div class="val">${yours}</div><div class="sub">${yours? 'thank you for filing' : 'add yours via the story'}</div></div>
 `;
@@ -311,7 +311,7 @@ function render(){
       ${f.rating ? starsHtml(f.rating) : ''}
       <div class="body">${body}</div>
       ${fb}
-      <div class="meta"><span class="sig">— ${escapeHtml(f.name || 'Anonymous')}</span><span>${escapeHtml(f.loc || '')}</span></div>
+      <div class="meta"><span class="sig">${escapeHtml(f.name || 'Anonymous')}</span><span>${escapeHtml(f.loc || '')}</span></div>
     `;
     wallEl.appendChild(slip);
   });

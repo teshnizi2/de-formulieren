@@ -8,12 +8,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="description" content="A 3-minute story about a Dutch farmer, an app, and a form. AI & Society, Leiden 2026." />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<meta property="og:title" content="De Formulieren — A Stewardship Story" />
+<meta property="og:title" content="De Formulieren · A Stewardship Story" />
 <meta property="og:description" content="A 3-minute story about a Dutch farmer, an app, and a form the app is connected to. Make two choices, write one sentence in your own words." />
 <meta property="og:image" content="og.jpg" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
-<title>De Formulieren — A Stewardship Story</title>
+<title>De Formulieren · A Stewardship Story</title>
 
 <style>
 /* ─── Palette ──────────────────────────────────────────────────────────── */
@@ -686,7 +686,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
   <h1>De Formulieren<span class="sub">a 3-minute story</span></h1>
   <div class="quote">
     "My farmers are not afraid of apps. They are afraid of the forms the app is connected to."
-    <cite>— Senior farm advisor, 16 April 2026</cite>
+    <cite>Senior farm advisor, 16 April 2026</cite>
   </div>
   <button class="start-btn" onclick="startGame(event)">Begin &nbsp;→</button>
   <div style="margin-top:18px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center">
@@ -721,7 +721,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
 
 <!-- ════════ End card ═══════════════════════════════════════════════════ -->
 <div id="endcard">
-  <div class="ribbon" id="end-ribbon">— Closing —</div>
+  <div class="ribbon" id="end-ribbon">Closing</div>
   <h2 id="end-title">The night is over.</h2>
   <p id="end-body"></p>
   <div id="end-yourwords"></div>
@@ -760,19 +760,19 @@ const BEATS = {
   intro: {
     bg:'barn', chapter:'I', time:'22:43',
     meta:'A barn in the Netherlands · 8 May 2031',
-    text:'You are a dairy farmer. <strong>Forty cows.</strong> The barn is quiet. Your cows are asleep. <em>Tomorrow morning the farm app sends its monthly report to the government.</em>',
+    text:'You are a dairy farmer in the Netherlands. You have forty cows. The barn is quiet and the cows are asleep. <em>Tomorrow morning the farm app sends its monthly report to the government.</em>',
     next:'phone_alert'
   },
   phone_alert: {
     bg:'phone', notif:'battery', chapter:'I', time:'22:43',
     meta:'A push notification from the farm app',
-    text:'Your phone buzzes. <strong>The sensor on cow #17 is dying.</strong> Do nothing and the app sees a gap and lowers your score. Outside, it is raining hard.',
+    text:'Your phone buzzes. <strong>The sensor on cow #17 is running out of battery.</strong> If you do nothing, the app will see a gap in the data and your score will drop in the morning. Outside, it is raining hard.',
     choices:[
-      {key:'A', label:'Go out now and change the battery.',
-        hint:"You get soaked. Your score stays clean.",
+      {key:'A', label:'Get up and change the battery.',
+        hint:"You\'ll get soaked. But your score stays clean.",
         next:'went_out', tag:'went'},
-      {key:'B', label:'Sleep. Fix it in the morning.',
-        hint:"The app sees a gap. Your score drops.",
+      {key:'B', label:'Stay in bed. Deal with it tomorrow.',
+        hint:"The app will see a gap. Your score will drop.",
         next:'slept_in', tag:'slept'},
     ]
   },
@@ -782,14 +782,14 @@ const BEATS = {
     bg:'cow', chapter:'II', time:'23:14',
     meta:'Stall 17 · The battery is changed',
     rain:'heavy', tint:'warm',
-    text:"You crouch in the mud. The cow — you call her <em>Femke</em> — chews calmly while you change the battery. Done by 23:14. <strong>Score safe. Coat soaked.</strong>",
+    text:"You crouch in the mud. The cow chews calmly while you change the battery with cold fingers. You call her <em>Femke</em>. By 23:14 you are done. <strong>Your score is safe and you are soaked through.</strong>",
     next:'went_out_reflect'
   },
   went_out_reflect: {
     bg:'interior', chapter:'II', time:'23:39',
     meta:'Walking back through the barn',
     tint:'warm',
-    text:"The cows breathe softly. You just did <em>half an hour of unpaid work for an app you do not own.</em> The app will record a perfect score. <strong>It records nothing about the rain.</strong>",
+    text:"The cows breathe softly. You just spent <em>half an hour doing unpaid work for an app you don\'t own.</em> The app will record a perfect score. <strong>It records nothing about the rain.</strong>",
     choices:[{key:'→', label:'Go to bed.', next:'morning'}]
   },
 
@@ -799,14 +799,14 @@ const BEATS = {
     score:-3, scoreFlash:'bad', shake:true, redFlash:true,
     rain:true, tint:'cold',
     meta:'Kitchen window · Before dawn',
-    text:'You wake before dawn. Your phone is full of warnings. The app saw a <strong>6-hour gap</strong> and flagged your barn as a <em>"possible welfare concern."</em> Score dropped three points. <em>The app cannot tell rest from neglect.</em>',
+    text:'You wake up before dawn. Your phone is full of warnings. The app saw a <strong>six hour gap</strong> in the data and flagged your barn as a <em>"possible welfare concern."</em> Your score dropped three points overnight. <em>The app cannot tell the difference between rest and neglect.</em>',
     next:'slept_in_reflect'
   },
   slept_in_reflect: {
     bg:'rain', chapter:'II', time:'05:04',
     meta:'Out in the pasture · The cows are fine',
     rain:'heavy', tint:'cold',
-    text:"The cows are calm. Femke chews her cud. <em>You know your cows are fine.</em> But the app didn't ask. It just measured.",
+    text:"The cows are calm. Femke chews her cud. <em>You know your cows are fine.</em> But the app didn\'t ask you. It just measured.",
     choices:[{key:'→', label:'Your phone rings. It is the cooperative.', next:'morning'}]
   },
 
@@ -815,16 +815,16 @@ const BEATS = {
     bg:'desk', chapter:'III', time:'07:32',
     meta:'A call from the cooperative',
     textByPath:{
-      went:'The chair calls anyway. <em>"The app gave you a perfect night — but the inspector saw the cooperative metrics and asked for a stewardship report. What do we say?"</em> A blank form sits in front of you.',
+      went:'The chair calls anyway. <em>"The app gave you a perfect night. But the inspector saw the cooperative metrics and asked for a stewardship report. What do we say?"</em> A blank form sits on your desk.',
       slept:'<em>"The app flagged your barn. The inspector will see it in this month\'s report. What do we tell them?"</em> The desk lamp is on. A blank form sits in front of you.',
     },
     text:'<em>"The app flagged your barn. What do we tell them?"</em> The desk lamp is on. A blank form sits in front of you.',
     choices:[
-      {key:'A', label:'Lie. Call the gap a "calibration test."',
-        hint:'Score restored. Nobody knows what really happened.',
+      {key:'A', label:'Lie. Tell the app it was a "calibration test."',
+        hint:'Your score goes back up. Nobody finds out what really happened.',
         next:'preact', tag:'preact'},
       {key:'B', label:'Tell the truth. Write a letter.',
-        hint:"Score stays low. You write what the app did not see.",
+        hint:"Your score stays low. But you get to say what the app didn\'t see.",
         next:'fill_form', tag:'postact', refuse:true},
     ]
   },
@@ -834,7 +834,7 @@ const BEATS = {
     bg:'desk', chapter:'IV', time:'07:51',
     meta:'A small lie typed into the app',
     score:+3, scoreFlash:'good',
-    text:'You type: <em>"manual calibration window, 22:43 to 04:55."</em> The app absorbs it. Score restored. <em>You have taught the app to never see this kind of night.</em>',
+    text:'You type <em>"manual calibration window, 22:43 to 04:55"</em> into the app. The app accepts it. Your score is back to normal. <em>You just taught the app to never see this kind of night.</em>',
     next:'preact_end'
   },
 
@@ -852,7 +852,7 @@ const BEATS = {
         type:'textarea', placeholder:'A kind of attention…', maxlength:280, num:'2.'},
       {id:'rating', label:'How does this story land for you?',
         type:'stars', max:5, num:'3.',
-        helper:'Stepping out of the story for a moment — your honest rating helps me improve.'},
+        helper:'Stepping out of the story for a moment. Your honest rating helps me improve.'},
       {id:'feedback', label:'Anything for the maker? (optional)',
         type:'textarea', placeholder:'One thing that landed, one thing that didn\'t…', maxlength:280, num:'4.'},
     ],
@@ -875,14 +875,14 @@ const BEATS = {
     title:'You kept the points.',
     body:'You gave the app a story it could store. <em>The next inspector will read your file and trust the lie.</em>',
     coda:'The app learned nothing. The night was forgotten.',
-    missedHint:"You took the easier road. There's another ending — pick <strong>B</strong> at the morning to write a letter the government has to read."
+    missedHint:"You took the easy way out. There is another ending. Try picking <strong>B</strong> at the morning to write a letter the government has to read."
   },
   postact_end: {
     end:true, kind:'postact',
     title:'You wrote one sentence.',
-    body:'You lost something the app cannot return. But you wrote a sentence the government had to read. <em>The work you did was old. Only the fact that someone wrote it down is new.</em>',
+    body:'You lost something the app can\'t give back. But you wrote a sentence the government had to read. <em>The work you did was old. The only new thing is that someone wrote it down.</em>',
     coda:'Filed in the public register · №142.',
-    missedHint:"You took the harder road. Try <strong>A</strong> at the morning to see what the easier one looks like — and what it costs."
+    missedHint:"You took the harder way. Try <strong>A</strong> at the morning to see what the easy way looks like. And what it costs."
   }
 };
 
@@ -1178,13 +1178,13 @@ function buildNotif(kind, t){
   if(kind==='battery'){
     n.innerHTML = `
       <div class="top"><span class="dot"></span><span class="brand">Foqus Planet</span><span style="margin-left:auto">${t||'22:43'}</span></div>
-      <h3>Low battery — Cow #17</h3>
+      <h3>Cow #17 battery is low</h3>
       <p>The sensor will stop sending data in <b>8 minutes</b>. Replace the battery to keep the app's record complete.</p>
       <div class="row">Score impact <b>−3 / day if ignored</b></div>`;
   } else if(kind==='gap'){
     n.innerHTML = `
       <div class="top"><span class="dot"></span><span class="brand">Foqus Planet</span><span style="margin-left:auto">${t||'04:48'}</span></div>
-      <h3>Data gap detected — 6h 12m</h3>
+      <h3>Data gap detected, 6h 12m</h3>
       <p>Your barn has been flagged as a <b>"possible welfare concern."</b> Your cooperative has been notified. Explain it before 09:00.</p>
       <div class="row">Score change <b>−3 points</b></div>`;
   }
@@ -1372,7 +1372,7 @@ function showEnd(beat){
     block.className='yourwords';
     block.innerHTML = `${escapeHtml(state.form.invisible_work)}`
       + (state.form.what_work_needs ? `<br/><br/>${escapeHtml(state.form.what_work_needs)}` : '')
-      + `<span class="sig">— ${escapeHtml(state.form.name||'Anonymous')}</span>`;
+      + `<span class="sig">${escapeHtml(state.form.name||'Anonymous')}</span>`;
     wordsEl.appendChild(block);
     $('#share-btn').style.display='inline-block';
     $('#wall-btn').style.display='inline-block';
@@ -1401,7 +1401,7 @@ function showEnd(beat){
     <div class="stat"><div class="lbl">Your choice</div><div class="val">${beat.kind==='postact'?'Truth':'Lie'}</div></div>
   `;
 
-  $('#end-ribbon').textContent = beat.kind==='postact' ? '— You told the truth —' : '— You kept the score —';
+  $('#end-ribbon').textContent = beat.kind==='postact' ? 'You told the truth' : 'You kept the score';
 
   if(beat.kind==='postact') chime(); else thump();
   buzz(beat.kind==='postact'?[0,30,30,40]:[60]);
@@ -1423,7 +1423,7 @@ async function shareAnswer(ev){
   tapfeedback(ev?.currentTarget, ev);
   const t1 = state.form.invisible_work||'';
   const t2 = state.form.what_work_needs||'';
-  const text = `What I wrote on Form 14.3:\n\n"${t1}"${t2?`\n\n"${t2}"`:''}\n\n— De Formulieren, AI & Society, Leiden 2026`;
+  const text = `What I wrote on Form 14.3:\n\n"${t1}"${t2?`\n\n"${t2}"`:''}\n\nFrom De Formulieren, AI & Society, Leiden 2026`;
   if(navigator.share){
     try{ await navigator.share({title:'De Formulieren',text}); }catch(e){}
   } else {
@@ -1435,7 +1435,7 @@ async function shareAnswer(ev){
 
 function showTakeForm(ev){
   tapfeedback(ev?.currentTarget, ev);
-  toast('There is a paper form on the table — fill one in your own words.');
+  toast('There is a paper form on the table. Fill one in your own words.');
 }
 
 /* Preload */
