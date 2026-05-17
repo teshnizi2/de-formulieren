@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#1B3A5C" />
+<meta name="description" content="Digital archive of De Formulieren — the speculative annual report, posters, forms, and case files. AI & Society, Leiden 2026." />
+<title>De Formulieren — Public Register</title>
+
+<style>
+:root{
+  --blue: #1B3A5C;
+  --blue2:#2B5278;
+  --cream:#F5F1E8;
+  --cream2:#ECE6D5;
+  --ink:  #2A2620;
+  --mute: #6E5A3B;
+  --gold: #B89958;
+  --gold2:#d4b56e;
+  --red:  #B33A3A;
+  --rule: #C9B98E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);
+  font-family:'Helvetica Neue','Helvetica',Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ─── Top strip ────────────────────────────────────────────────────────── */
+.topstrip{
+  background:var(--blue);color:var(--cream);padding:10px 22px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+}
+.topstrip .left{display:flex;gap:14px;align-items:center}
+.topstrip .gold{color:var(--gold)}
+.topstrip a{color:var(--cream);border:1px solid rgba(245,241,232,0.35);
+  padding:6px 14px;font-size:10px;letter-spacing:0.22em;}
+.topstrip a:hover{background:rgba(245,241,232,0.1);text-decoration:none}
+
+/* ─── Hero ─────────────────────────────────────────────────────────────── */
+.hero{
+  max-width:1100px;margin:0 auto;padding:46px 28px 28px;
+  display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;
+}
+.hero .crest{width:84px;flex:0 0 84px;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,0.15));}
+.hero .lede{flex:1;min-width:280px}
+.hero .stamp{font-size:10px;letter-spacing:0.30em;color:var(--mute);
+  text-transform:uppercase;margin-bottom:6px;}
+.hero h1{
+  font-family:'New York','Iowan Old Style','Georgia',serif;
+  font-style:italic;font-weight:400;font-size:clamp(34px,5vw,52px);
+  line-height:1.05;margin:0 0 8px;color:var(--blue);}
+.hero h1 .sub{display:block;font-size:0.48em;color:var(--mute);margin-top:6px;font-style:normal;letter-spacing:0.04em}
+.hero .quote{
+  font-family:'New York','Georgia',serif;font-style:italic;
+  font-size:18px;line-height:1.55;color:var(--ink);
+  border-left:2px solid var(--gold);padding:8px 0 8px 18px;
+  max-width:640px;margin:18px 0 0;}
+.hero .quote cite{
+  display:block;margin-top:8px;font-size:10px;letter-spacing:0.16em;
+  color:var(--mute);text-transform:uppercase;font-style:normal;}
+
+.hero-rule{max-width:1100px;margin:6px auto 0;padding:0 28px}
+.hero-rule .blue{height:1.4pt;background:var(--blue)}
+.hero-rule .gold{height:0.4pt;background:var(--gold);margin-top:1px}
+
+/* ─── Play CTA ─────────────────────────────────────────────────────────── */
+.play-cta{
+  max-width:1100px;margin:30px auto 10px;padding:0 28px;
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.play-cta .play{
+  appearance:none;background:var(--gold);color:#1a1206;border:none;
+  padding:14px 28px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+  font-weight:700;cursor:pointer;font-family:inherit;
+  text-decoration:none;display:inline-block;
+}
+.play-cta .play:hover{background:var(--gold2);text-decoration:none}
+.play-cta .note{font-size:13px;color:var(--mute);font-style:italic;flex:1;min-width:200px}
+
+/* ─── Section heading ──────────────────────────────────────────────────── */
+.section{max-width:1100px;margin:36px auto 0;padding:0 28px}
+.section h2{
+  font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
+  font-size:26px;color:var(--blue);margin:0 0 6px;}
+.section .desc{font-size:13.5px;color:var(--mute);margin:0 0 22px;line-height:1.55;font-style:italic;max-width:640px}
+
+/* ─── Grid ─────────────────────────────────────────────────────────────── */
+.grid{
+  display:grid;gap:22px;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+}
+.card{
+  background:#fff;border:1px solid var(--rule);
+  display:flex;flex-direction:column;
+  transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  text-decoration:none;color:var(--ink);
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(27,58,92,0.18);
+  border-color:var(--gold);text-decoration:none;}
+.card .thumb{
+  height:200px;background:var(--cream2);
+  background-size:cover;background-position:center top;
+  border-bottom:1px solid var(--rule);position:relative;
+}
+.card .thumb::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.04) 100%);
+}
+.card .body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column}
+.card .kicker{
+  font-size:9px;letter-spacing:0.22em;color:var(--gold);font-weight:700;
+  text-transform:uppercase;margin-bottom:6px;
+}
+.card h3{
+  font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
+  font-size:21px;color:var(--blue);margin:0 0 8px;line-height:1.15;}
+.card p{font-size:13.5px;color:var(--ink);margin:0;line-height:1.5;flex:1}
+.card .meta{
+  margin-top:10px;font-size:10px;letter-spacing:0.18em;color:var(--mute);
+  text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;}
+.card .meta .read{color:var(--blue);font-weight:700}
+.card.story-card{
+  background:linear-gradient(180deg, var(--blue) 0%, #14264a 100%);
+  color:var(--cream);border:1px solid var(--blue);
+}
+.card.story-card:hover{box-shadow:0 12px 36px rgba(27,58,92,0.35);border-color:var(--gold)}
+.card.story-card .thumb{background:transparent;height:200px;
+  display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(184,153,88,0.4)}
+.card.story-card .thumb svg{width:80px;height:80px;filter:drop-shadow(0 0 18px rgba(184,153,88,0.45));}
+.card.story-card .kicker{color:var(--gold)}
+.card.story-card h3{color:#fff}
+.card.story-card p{color:var(--cream2)}
+.card.story-card .meta{color:var(--gold);opacity:0.85}
+.card.story-card .meta .read{color:var(--gold2)}
+
+/* ─── Footer ───────────────────────────────────────────────────────────── */
+footer{
+  max-width:1100px;margin:60px auto 0;padding:30px 28px 50px;
+  border-top:1px solid var(--rule);
+  font-size:12px;color:var(--mute);line-height:1.7;
+}
+footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer strong{color:var(--ink);font-weight:600}
+footer a{color:var(--blue)}
+
+/* ─── Mobile ───────────────────────────────────────────────────────────── */
+@media (max-width:680px){
+  .topstrip{padding:8px 14px;font-size:9.5px;letter-spacing:0.18em}
+  .topstrip a{padding:5px 10px}
+  .hero{padding:30px 18px 18px;gap:18px}
+  .hero .crest{width:56px;flex:0 0 56px}
+  .hero h1{font-size:28px}
+  .hero .quote{font-size:15px}
+  .play-cta{padding:0 18px}
+  .section{padding:0 18px}
+  .grid{gap:16px;grid-template-columns:1fr}
+  .card .thumb{height:180px}
+  .card h3{font-size:19px}
+  footer{padding:24px 18px 36px}
+}
+</style>
+</head>
+<body>
+
+<!-- Top strip -->
+<div class="topstrip">
+  <div class="left">
+    <span class="gold">Koninkrijk der Nederlanden</span>
+    <span style="opacity:0.6">·</span>
+    <span>Rijksdienst voor Gedeeld Beheer</span>
+  </div>
+  <a href="./">← Play the story</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <svg class="crest" viewBox="0 0 100 100">
+    <defs>
+      <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#d4b56e"/>
+        <stop offset="1" stop-color="#A0793E"/>
+      </linearGradient>
+    </defs>
+    <path d="M50 8 L82 22 L82 52 Q82 78 50 92 Q18 78 18 52 L18 22 Z"
+      fill="#1B3A5C" stroke="url(#g)" stroke-width="2"/>
+    <path d="M30 38 Q50 28 70 38 M30 50 Q50 40 70 50 M30 62 Q50 52 70 62"
+      stroke="url(#g)" stroke-width="1.4" fill="none"/>
+    <circle cx="50" cy="22" r="3.5" fill="url(#g)"/>
+  </svg>
+  <div class="lede">
+    <div class="stamp">Public Register · Fiscal year 2030–2031 · Eastern Netherlands</div>
+    <h1>De Formulieren<span class="sub">— the speculative annual report, in full —</span></h1>
+    <div class="quote">
+      "My farmers are not afraid of apps. They are afraid of the forms the app is connected to."
+      <cite>— Senior farm advisor, Eastern Netherlands, 16 April 2026</cite>
+    </div>
+  </div>
+</div>
+<div class="hero-rule"><div class="blue"></div><div class="gold"></div></div>
+
+<!-- Play CTA -->
+<div class="play-cta">
+  <a href="./" class="play">Play the 3-minute story →</a>
+  <span class="note">Or read the printed pieces below — every document the imagined Authority issued this year.</span>
+</div>
+
+<!-- The annual report (featured) -->
+<div class="section">
+  <h2>The annual report</h2>
+  <p class="desc">A 40-page A5 booklet. The Authority's complete second-year accounting of what its predecessor (the precision-agriculture platform) refused to count.</p>
+  <div class="grid">
+    <a class="card" href="pdfs/annual_report.pdf">
+      <div class="thumb" style="background-image:url('thumbs/annual_report.jpg')"></div>
+      <div class="body">
+        <div class="kicker">40 pages · A5</div>
+        <h3>Jaarverslag 2030–2031</h3>
+        <p>Foreword, mandate, case files, refusal letters, risks, and the index of figures and tables. The complete report — designed to be read as a booklet, but here in single-page form so it reads straight through.</p>
+        <div class="meta"><span>PDF · 267 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Documents the Authority issues -->
+<div class="section">
+  <h2>Documents the Authority issues</h2>
+  <p class="desc">Forms, notices, and certificates the imagined Rijksdienst voor Gedeeld Beheer would use in its daily correspondence. Each is filed in the public register.</p>
+  <div class="grid">
+    <a class="card" href="pdfs/refusal_notice.pdf">
+      <div class="thumb" style="background-image:url('thumbs/refusal_notice.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Form 14.3 · Refusal</div>
+        <h3>Refusal Notice</h3>
+        <p>The notice a cooperative files when it declines a private sustainability score. Used in Case 5.3 — the one the story is built around.</p>
+        <div class="meta"><span>PDF · 2 pages · 122 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+    <a class="card" href="pdfs/stewardship_pad.pdf">
+      <div class="thumb" style="background-image:url('thumbs/stewardship_pad.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Form 14.3 · Pad</div>
+        <h3>Stewardship Statement</h3>
+        <p>A blank form a member fills in their own words. The same three prompts you answer at the end of the game.</p>
+        <div class="meta"><span>PDF · 2 pages · 107 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+    <a class="card" href="pdfs/certificate.pdf">
+      <div class="thumb" style="background-image:url('thumbs/certificate.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Recognition №142</div>
+        <h3>Stewardship Recognition</h3>
+        <p>The letter the Authority sends back when it accepts a Refusal as a complete account. The certificate at the end of the story.</p>
+        <div class="meta"><span>PDF · 1 page · 87 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+    <a class="card" href="pdfs/case_cards.pdf">
+      <div class="thumb" style="background-image:url('thumbs/case_cards.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Public register</div>
+        <h3>Case File Cards</h3>
+        <p>Six dossier-style cards summarising the actual refusal cases of the year — sensor batteries, milking schedules, audit gaps. Each one a one-page anecdote.</p>
+        <div class="meta"><span>PDF · 6 pages · 57 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- The exhibition pieces -->
+<div class="section">
+  <h2>The exhibition</h2>
+  <p class="desc">The poster, the quote panel, and the booth's framing pieces — printed on the wall behind the table.</p>
+  <div class="grid">
+    <a class="card" href="pdfs/poster_board.pdf">
+      <div class="thumb" style="background-image:url('thumbs/poster_board.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Poster · A1</div>
+        <h3>Annual report poster</h3>
+        <p>The piece on the wall behind the table. Reads at 5 metres (title), 1 metre (the killer quote), 30 cm (statement and QR code).</p>
+        <div class="meta"><span>PDF · A1 · 100 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+    <a class="card" href="pdfs/quote_poster.pdf">
+      <div class="thumb" style="background-image:url('thumbs/quote_poster.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Poster · A4</div>
+        <h3>Quote poster (A4)</h3>
+        <p>The killer quote, set in EN and NL, with a short statement on the right and a QR code to the digital archive.</p>
+        <div class="meta"><span>PDF · A4 · 104 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Behind the artifact -->
+<div class="section">
+  <h2>Behind the artifact</h2>
+  <p class="desc">Honest accounting of what's real and what's made up. The course requires this kind of declaration; the artifact is stronger for it.</p>
+  <div class="grid">
+    <a class="card" href="pdfs/authors_note.pdf">
+      <div class="thumb" style="background-image:url('thumbs/authors_note.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Note · A4</div>
+        <h3>Author's note</h3>
+        <p>What is real (the interview, the labour, the quote), what is fiction (the Authority), and what I used AI for (the coat of arms, the story-game illustrations).</p>
+        <div class="meta"><span>PDF · 1 page · 30 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+    <a class="card" href="pdfs/process_notes.pdf">
+      <div class="thumb" style="background-image:url('thumbs/process_notes.jpg')"></div>
+      <div class="body">
+        <div class="kicker">Note · A4</div>
+        <h3>Process notes</h3>
+        <p>How the artifact was made, in five short sections: source, decisions, intellectual debts, declared doubt, things I would do differently.</p>
+        <div class="meta"><span>PDF · 1 page · 38 KB</span><span class="read">Read →</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="row">
+    <div>
+      <strong>The labour it counts is old.</strong><br>
+      The institution does not exist. The forms do not exist.<br>
+      The prompts are real.
+    </div>
+    <div style="text-align:right">
+      <strong>AI &amp; Society · Universiteit Leiden · May 2026</strong><br>
+      Mohammadreza AhmadiTeshnizi<br>
+      <a href="https://github.com/teshnizi2/de-formulieren">View source on GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
