@@ -849,7 +849,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
     <div class="pill"><span class="lbl">Chapter</span><span class="val" id="chapter">I</span></div>
   </div>
   <div class="right">
-    <div class="pill"><span class="lbl">App score</span><span class="val good" id="score">94</span></div>
+    <div class="pill" id="score-pill"><span class="lbl">App score</span><span class="val good" id="score">94</span></div>
     <div class="pill"><span class="lbl">Letters</span><span class="val" id="rgbcount">0</span></div>
     <button id="muteBtn" class="muteBtn" style="display:none" onclick="toggleMute(event)" title="Mute / unmute sound" aria-label="Mute sound">♪</button>
   </div>
@@ -876,7 +876,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
   <p class="coda" id="end-coda"></p>
   <div class="actions">
     <button class="primary big-try" id="try-other-btn" onclick="tryOtherEnding(event)">↻ Try the other ending</button>
-    <button onclick="restart(event)">Play from the start</button>
+    <button onclick="restart(event)">Pick another case</button>
     <button id="wall-btn" onclick="location.href='wall.html'">See it on the wall</button>
     <button id="share-btn" onclick="shareAnswer(event)">Share what you wrote</button>
     <button onclick="location.href='read.html'">Read the archive</button>
@@ -1176,8 +1176,8 @@ const BEATS = {
     ]
   },
   m_form_path: {
-    bg:'m_phone', chapter:'III', time:'12:30', notif:'gap',
-    score:-3, scoreFlash:'bad', shake:true, redFlash:true,
+    bg:'m_phone', chapter:'III', time:'12:30',
+    shake:true, redFlash:true,
     meta:'The form fights back',
     text:'The form rejects the photo. You compress it badly. You guess "Foliar Blight Cat. 12." Submit. Wait. <strong>Three days later</strong>, the cooperative replies: "Please refile under the proper category."',
     choices:[{key:'→', label:'By the time you act, half the crop is lost.', next:'m_form_lose_end'}]
@@ -1473,6 +1473,8 @@ function startCase(id){
   state.score = 94; state.rgb14_3 = 0; state.path = []; state.history = []; state.form = {};
   $('#score').textContent = 94; $('#score').className = 'val good';
   $('#rgbcount').textContent = 0;
+  // Hide score pill for cases where there is no app score
+  $('#score-pill').style.display = (id === 'sensor') ? 'flex' : 'none';
   // Hide case select
   const sel = $('#case-select');
   sel.classList.remove('show'); sel.classList.add('hide');
@@ -1885,7 +1887,7 @@ function showEnd(beat){
       state.path.includes('went')?'Went out':'Slept',
       state.path.includes('preact')?'Lied':'Wrote'];
   } else if(state.caseId === 'dictation'){
-    if(state.path.includes('h_template')) labels = ['Start','Signed','—'];
+    if(state.path.includes('h_template')) labels = ['Start','Signed','No record'];
     else if(state.path.includes('h_short')) labels = ['Start','Dictated','Short'];
     else if(state.path.includes('h_long')) labels = ['Start','Dictated','Trijntje'];
   } else if(state.caseId === 'spots'){
