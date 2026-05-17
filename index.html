@@ -168,16 +168,17 @@ input,textarea{user-select:text;-webkit-user-select:text}
 .hud .pill .val.bad{color:#ff8a8a}
 .hud .pill .val.good{color:#9bd6a3}
 .muteBtn{
-  position:absolute;top:14px;right:14px;z-index:8;
-  background:rgba(10,8,4,0.55);border:1px solid rgba(201,185,142,0.35);
-  color:var(--cream);padding:6px 9px;font-size:14px;
+  background:transparent;border:none;
+  color:var(--gold);padding:0 4px;font-size:16px;
   cursor:pointer;font-family:inherit;line-height:1;
   display:flex;align-items:center;justify-content:center;
-  min-width:32px;min-height:32px;pointer-events:auto;
-  transition:background 0.2s;
+  min-width:24px;min-height:24px;pointer-events:auto;
+  transition:color 0.2s, transform 0.15s;
+  margin-left:6px;
 }
-.muteBtn:hover{background:rgba(10,8,4,0.85);border-color:var(--gold)}
-.muteBtn.muted{opacity:0.7;color:var(--mute)}
+.muteBtn:hover{color:var(--gold2);transform:scale(1.15)}
+.muteBtn:active{transform:scale(0.9)}
+.muteBtn.muted{color:var(--mute);opacity:0.7}
 .flash-bad{animation:flashbad 0.9s ease-out 1}
 .flash-good{animation:flashgood 0.9s ease-out 1}
 @keyframes flashbad{
@@ -707,14 +708,13 @@ input,textarea{user-select:text;-webkit-user-select:text}
   <div class="right">
     <div class="pill"><span class="lbl">App score</span><span class="val good" id="score">94</span></div>
     <div class="pill"><span class="lbl">Letters</span><span class="val" id="rgbcount">0</span></div>
+    <button id="muteBtn" class="muteBtn" style="display:none" onclick="toggleMute(event)" title="Mute / unmute sound" aria-label="Mute sound">♪</button>
   </div>
 </div>
 
 <!-- ════════ Letterbox ═════════════════════════════════════════════════ -->
 <div class="letterbox top"></div>
 <div class="letterbox bottom"></div>
-
-<button id="muteBtn" class="muteBtn" style="display:none" onclick="toggleMute(event)" title="Mute / unmute sound" aria-label="Mute sound">♪</button>
 
 <!-- ════════ Stage ═════════════════════════════════════════════════════ -->
 <div id="stage"></div>
