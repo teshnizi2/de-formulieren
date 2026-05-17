@@ -59,6 +59,20 @@ h1 .sub{display:block;font-size:0.46em;color:var(--mute);margin-top:6px;font-sty
   color:var(--blue);margin-top:6px;line-height:1.1}
 .stat .sub{font-size:11px;color:var(--mute);margin-top:4px;font-style:italic}
 
+/* Word cloud */
+.wordcloud{
+  background:#fff;border:1px solid var(--rule);
+  padding:18px 22px;margin:14px 0 0;position:relative;
+}
+.wordcloud::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.wordcloud .wc-label{font-size:9px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.wordcloud .wc-words{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.wordcloud .wc-word{
+  font-family:'New York','Georgia',serif;color:var(--blue);font-style:italic;
+  line-height:1.05;transition:transform 0.2s, color 0.2s;cursor:default;
+}
+.wordcloud .wc-word:hover{color:var(--gold);transform:scale(1.08)}
+
 /* CTA */
 .cta{max-width:1100px;margin:26px auto 4px;padding:0 28px;
   display:flex;gap:14px;align-items:center;flex-wrap:wrap}
@@ -90,13 +104,23 @@ h1 .sub{display:block;font-size:0.46em;color:var(--mute);margin-top:6px;font-sty
   background:#fff;border:1px solid var(--rule);
   position:relative;padding:18px 20px 16px;display:flex;flex-direction:column;
   box-shadow:0 4px 12px rgba(27,58,92,0.06);
-  transition:transform 0.2s, box-shadow 0.2s;
+  transition:transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
   font-family:'New York','Georgia',serif;
-  opacity:0;transform:translateY(20px);
+  opacity:0;
+  transform:translateY(20px) rotate(var(--rot,0deg));
 }
-.slip.reveal{opacity:1;transform:translateY(0);
+.slip.reveal{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));
   transition:opacity 0.6s ease-out, transform 0.6s ease-out}
-.slip:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(27,58,92,0.18)}
+.slip:hover{transform:translateY(-3px) rotate(0deg) scale(1.01);box-shadow:0 14px 30px rgba(27,58,92,0.22);z-index:2}
+/* Tape corner on every slip */
+.slip::after{
+  content:"";position:absolute;top:-6px;right:18px;
+  width:38px;height:14px;
+  background:linear-gradient(180deg, rgba(184,153,88,0.5) 0%, rgba(184,153,88,0.35) 100%);
+  box-shadow:1px 1px 3px rgba(0,0,0,0.15);
+  transform:rotate(-3deg);
+  border:1px solid rgba(184,153,88,0.4);
+}
 .slip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
 .slip .head{
   display:flex;justify-content:space-between;align-items:baseline;gap:14px;
@@ -181,6 +205,10 @@ footer strong{color:var(--ink);font-weight:600}
 
 <div class="statwrap">
   <div class="stats" id="stats"></div>
+  <div class="wordcloud" id="wordcloud" style="display:none">
+    <div class="wc-label">Words most often used</div>
+    <div class="wc-words" id="wc-words"></div>
+  </div>
 </div>
 
 <div class="cta">
@@ -264,9 +292,40 @@ const statsEl = document.getElementById('stats');
 statsEl.innerHTML = `
   <div class="stat"><div class="lbl">Filings on the register</div><div class="val">${total}</div><div class="sub">across regions and forms</div></div>
   <div class="stat"><div class="lbl">Average rating</div><div class="val">${avg ? avg.toFixed(1) : 'no ratings'} <span style="font-size:0.55em;color:var(--gold)">${avg?'★':''}</span></div><div class="sub">${ratings.length} ratings collected</div></div>
-  <div class="stat"><div class="lbl">Five-star filings</div><div class="val">${fiveStars}</div><div class="sub">strongest sentences on file</div></div>
+  <div class="stat"><div class="lbl">Five star filings</div><div class="val">${fiveStars}</div><div class="sub">strongest sentences on file</div></div>
   <div class="stat"><div class="lbl">Yours on this device</div><div class="val">${yours}</div><div class="sub">${yours? 'thank you for filing' : 'add yours via the story'}</div></div>
 `;
+
+// Word cloud computation from all filing bodies
+const stopwords = new Set('the a an and or but of to in on at for with by from as is are was were be been being i you he she we they it this that these those my your his her our their not no into out up down so than then if when then what why how all any can will just have has had do does did would should could there here am one two three four five six seven eight nine ten about also'.split(' '));
+const wordCounts = {};
+allFilings.forEach(f => {
+  (f.body || []).forEach(line => {
+    line.toLowerCase().replace(/[.,;:!?"'’“”()0-9#-]/g, ' ').split(/\s+/).forEach(w => {
+      if (w.length >= 4 && !stopwords.has(w)) {
+        wordCounts[w] = (wordCounts[w] || 0) + 1;
+      }
+    });
+  });
+  if (f.feedback) {
+    f.feedback.toLowerCase().replace(/[.,;:!?"'’“”()0-9#-]/g, ' ').split(/\s+/).forEach(w => {
+      if (w.length >= 4 && !stopwords.has(w)) {
+        wordCounts[w] = (wordCounts[w] || 0) + 1;
+      }
+    });
+  }
+});
+const topWords = Object.entries(wordCounts).sort((a,b) => b[1] - a[1]).slice(0, 14);
+if (topWords.length > 0) {
+  const maxCount = topWords[0][1];
+  const wcEl = document.getElementById('wordcloud');
+  const wordsEl = document.getElementById('wc-words');
+  wcEl.style.display = 'block';
+  wordsEl.innerHTML = topWords.map(([w, c]) => {
+    const size = 13 + Math.round((c / maxCount) * 22);
+    return `<span class="wc-word" style="font-size:${size}px" title="${c} times">${w}</span>`;
+  }).join('');
+}
 
 // Filters
 const filtersEl = document.getElementById('filters');
@@ -304,6 +363,10 @@ function render(){
     const slip = document.createElement('div');
     const high = (f.rating || 0) >= 4;
     slip.className = 'slip' + (f.isMine ? ' mine' : '') + (high ? ' high-rating' : '');
+    // Random subtle paper rotation (deterministic from form-no so it stays stable)
+    const seed = (f.no || '').split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+    const rot = ((seed % 11) - 5) * 0.16;  // between roughly -0.8deg and +0.8deg
+    slip.style.setProperty('--rot', rot + 'deg');
     const body = (f.body || []).map(p => `<p>${escapeHtml(p)}</p>`).join('');
     const fb = f.feedback ? `<div class="feedback">${escapeHtml(f.feedback)}</div>` : '';
     slip.innerHTML = `

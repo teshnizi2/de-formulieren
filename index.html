@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="description" content="A 3-minute story about a Dutch farmer, an app, and a form. AI & Society, Leiden 2026." />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="favicon.svg" />
 <meta property="og:title" content="De Formulieren · A Stewardship Story" />
 <meta property="og:description" content="A 3-minute story about a Dutch farmer, an app, and a form the app is connected to. Make two choices, write one sentence in your own words." />
 <meta property="og:image" content="og.jpg" />
@@ -45,7 +47,7 @@ input,textarea{user-select:text;-webkit-user-select:text}
 
 .scene{
   position:absolute;inset:0;background:#000;
-  opacity:0;transition:opacity 1.0s ease-in-out;
+  opacity:0;transition:opacity 0.7s ease-in-out;
   pointer-events:none;
 }
 .scene.active{opacity:1;pointer-events:auto}
@@ -150,9 +152,36 @@ input,textarea{user-select:text;-webkit-user-select:text}
 }
 @keyframes bob{50%{transform:translateY(-3px);opacity:1}}
 
+/* ─── Chapter progress bar ─────────────────────────────────────────────── */
+.progress{
+  position:absolute;top:0;left:0;right:0;height:3px;z-index:6;
+  background:rgba(0,0,0,0.35);overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg, var(--gold), var(--gold2));
+  width:0%;transition:width 0.9s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:0 0 10px rgba(184,153,88,0.6);
+}
+.chapter-dots{
+  position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:7;
+  display:flex;gap:7px;align-items:center;pointer-events:none;
+}
+.chapter-dots .cdot{
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(245,241,232,0.25);
+  transition:background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.chapter-dots .cdot.done{background:var(--gold)}
+.chapter-dots .cdot.cur{background:var(--gold2);transform:scale(1.7);box-shadow:0 0 8px var(--gold)}
+.chapter-dots .cdot-label{
+  font-size:8px;letter-spacing:0.22em;color:var(--gold);
+  text-transform:uppercase;margin:0 4px;font-family:'Helvetica Neue',sans-serif;
+  opacity:0.7;
+}
+
 /* ─── HUD ──────────────────────────────────────────────────────────────── */
 .hud{
-  position:absolute;top:14px;left:14px;right:14px;z-index:5;
+  position:absolute;top:22px;left:14px;right:14px;z-index:5;
   display:flex;justify-content:space-between;align-items:center;gap:10px;
   font-size:10px;letter-spacing:0.20em;color:var(--cream);text-transform:uppercase;
   pointer-events:none;
@@ -598,6 +627,15 @@ input,textarea{user-select:text;-webkit-user-select:text}
 #endcard button:active{transform:scale(0.97)}
 #endcard button.primary{background:var(--gold);color:#1a1206;border-color:var(--gold)}
 #endcard button.primary:hover{background:var(--gold2)}
+#endcard button.big-try{
+  font-size:13px;padding:16px 32px;letter-spacing:0.24em;font-weight:700;
+  box-shadow:0 0 25px rgba(184,153,88,0.4);
+  animation:big-try-pulse 2.4s ease-in-out infinite;
+}
+@keyframes big-try-pulse{
+  0%,100%{box-shadow:0 0 25px rgba(184,153,88,0.4);transform:scale(1)}
+  50%{box-shadow:0 0 35px rgba(184,153,88,0.7);transform:scale(1.04)}
+}
 #endcard .coda{opacity:0.7;font-style:italic;font-size:13px;margin-top:0;letter-spacing:0.01em}
 .missed-hint{
   background:rgba(184,153,88,0.10);border:1px dashed rgba(184,153,88,0.5);
@@ -699,6 +737,18 @@ input,textarea{user-select:text;-webkit-user-select:text}
   </div>
 </div>
 
+<!-- ════════ Chapter progress ════════════════════════════════════════════ -->
+<div class="progress" id="progress" style="display:none"><div class="progress-fill" id="progress-fill"></div></div>
+<div class="chapter-dots" id="chapter-dots" style="display:none">
+  <div class="cdot" data-c="I"></div>
+  <div class="cdot-label">I</div>
+  <div class="cdot" data-c="II"></div>
+  <div class="cdot-label">II</div>
+  <div class="cdot" data-c="III"></div>
+  <div class="cdot-label">III</div>
+  <div class="cdot" data-c="IV"></div>
+</div>
+
 <!-- ════════ HUD ════════════════════════════════════════════════════════ -->
 <div class="hud" style="display:none" id="hud">
   <div class="left">
@@ -729,10 +779,11 @@ input,textarea{user-select:text;-webkit-user-select:text}
   <div class="stats" id="end-stats"></div>
   <p class="coda" id="end-coda"></p>
   <div class="actions">
-    <button onclick="restart(event)">Play again</button>
-    <button id="wall-btn" onclick="location.href='wall.html'">See it on the wall →</button>
+    <button class="primary big-try" id="try-other-btn" onclick="tryOtherEnding(event)">↻ Try the other ending</button>
+    <button onclick="restart(event)">Play from the start</button>
+    <button id="wall-btn" onclick="location.href='wall.html'">See it on the wall</button>
     <button id="share-btn" onclick="shareAnswer(event)">Share what you wrote</button>
-    <button class="primary" onclick="location.href='read.html'">Read the full archive →</button>
+    <button onclick="location.href='read.html'">Read the archive</button>
   </div>
 </div>
 
@@ -1026,8 +1077,22 @@ function startGame(ev){
   ensureAudio();
   titleCard.classList.add('hide');
   hud.style.display='flex';
+  $('#progress').style.display='block';
+  $('#chapter-dots').style.display='flex';
   refreshMuteBtn();
   setTimeout(()=>{ titleCard.style.display='none'; renderBeat('intro'); }, 900);
+}
+
+function updateProgress(chapter){
+  const map = {'I':25,'II':50,'III':75,'IV':100};
+  const pct = map[chapter] || 0;
+  $('#progress-fill').style.width = pct + '%';
+  document.querySelectorAll('.chapter-dots .cdot').forEach(d=>{
+    const c = d.dataset.c;
+    d.classList.remove('done','cur');
+    if(map[c] < pct) d.classList.add('done');
+    if(c === chapter) d.classList.add('cur');
+  });
 }
 
 function renderBeat(id){
@@ -1038,7 +1103,7 @@ function renderBeat(id){
 
   if(beat.end){ showEnd(beat); return; }
 
-  if(beat.chapter) $('#chapter').textContent = beat.chapter;
+  if(beat.chapter) { $('#chapter').textContent = beat.chapter; updateProgress(beat.chapter); }
   if(beat.time)    $('#clock').textContent  = beat.time;
 
   // Score change
@@ -1285,8 +1350,19 @@ function buildForm(beat){
             && (inv?.value?.trim().length||0) > 4;
     sendBtn.disabled = !ok;
   }
+  let lastKeyTone = 0;
   f.querySelectorAll('input,textarea').forEach(el=>{
-    el.addEventListener('input', ()=>{ tone(1200,0.012,0.012,'square'); update(); });
+    el.addEventListener('keydown', (e)=>{
+      // Subtle typewriter click on real key presses, not on bulk paste
+      const now = Date.now();
+      if(now - lastKeyTone > 30 && e.key.length === 1){
+        // Slight pitch variation per character for organic feel
+        const pitch = 1500 + ((e.key.charCodeAt(0) % 7) - 3) * 40;
+        tone(pitch, 0.015, 0.014, 'square');
+        lastKeyTone = now;
+      }
+    });
+    el.addEventListener('input', update);
     el.addEventListener('focus', ()=>tone(700,0.025,0.02));
   });
 
@@ -1337,7 +1413,7 @@ function buildForm(beat){
 
 function swapScene(scn){
   const old = stage.querySelectorAll('.scene');
-  old.forEach(o => { o.classList.remove('active'); setTimeout(()=>o.remove(), 1100); });
+  old.forEach(o => { o.classList.remove('active'); setTimeout(()=>o.remove(), 800); });
   stage.appendChild(scn);
   requestAnimationFrame(()=>requestAnimationFrame(()=>scn.classList.add('active')));
 }
@@ -1415,8 +1491,31 @@ function restart(ev){
   state.score=94; state.rgb14_3=0; state.path=[]; state.history=[]; state.form={};
   $('#score').textContent=94; $('#score').className='val good';
   $('#rgbcount').textContent=0;
+  updateProgress('I');
   stage.querySelectorAll('.scene').forEach(s=>s.remove());
   renderBeat('intro');
+}
+
+function tryOtherEnding(ev){
+  tapfeedback(ev?.currentTarget, ev);
+  endCard.classList.remove('show');
+  // Auto-replay through act I/II quickly, then stop at morning so they pick the other
+  const wentBefore = state.path.includes('went');
+  const liedBefore = state.path.includes('preact');
+  state.score = wentBefore ? 94 : 91;  // preserve the score they had at morning
+  state.rgb14_3 = 0;
+  state.path = wentBefore ? ['went'] : ['slept'];  // keep their Act II choice
+  state.history = [];
+  state.form = {};
+  $('#score').textContent = state.score;
+  $('#score').className = 'val ' + (state.score >= 80 ? 'good' : 'bad');
+  $('#rgbcount').textContent = 0;
+  updateProgress('III');
+  stage.querySelectorAll('.scene').forEach(s=>s.remove());
+  // Jump directly to morning beat — the path-dependent text will be correct
+  // and the user picks the OPPOSITE branch they had last time
+  toast(liedBefore ? 'Now pick B (tell the truth)' : 'Now pick A (lie)');
+  setTimeout(()=>renderBeat('morning'), 400);
 }
 
 async function shareAnswer(ev){

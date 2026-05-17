@@ -1,0 +1,20 @@
+{
+  "name": "De Formulieren · A Stewardship Story",
+  "short_name": "De Formulieren",
+  "description": "A 3 minute story about a Dutch farmer, an app, and a form. AI & Society, Leiden 2026.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a0a",
+  "theme_color": "#1B3A5C",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "games", "books"],
+  "lang": "en"
+}
