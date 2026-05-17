@@ -4,13 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#1B3A5C" />
-<meta name="description" content="About De Formulieren — a speculative annual report from a Dutch government authority that does not exist. AI & Society, Leiden 2026." />
+<meta name="description" content="About De Formulieren — speculative annual report. AI & Society, Leiden 2026." />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<meta property="og:title" content="De Formulieren — A speculative annual report" />
-<meta property="og:description" content="A 3-minute story about a Dutch farmer, an app, and a form the app is connected to. AI & Society, Universiteit Leiden, May 2026." />
-<meta property="og:image" content="https://teshnizi2.github.io/de-formulieren/og.jpg" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:title" content="About — De Formulieren" />
+<meta property="og:description" content="What's real, what's invented, what AI was used for." />
+<meta property="og:image" content="og.jpg" />
 <title>About — De Formulieren</title>
 
 <style>
@@ -21,69 +19,62 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);
-  font-family:'Helvetica Neue','Helvetica',Arial,sans-serif;
-  font-size:16px;line-height:1.6;}
+  font-family:'Helvetica Neue','Helvetica',Arial,sans-serif;font-size:16px;line-height:1.6}
 a{color:var(--blue)}a:hover{color:var(--blue2)}
 
 .topstrip{background:var(--blue);color:var(--cream);padding:10px 22px;
   display:flex;justify-content:space-between;align-items:center;gap:14px;
-  font-size:11px;letter-spacing:0.22em;text-transform:uppercase;}
+  font-size:11px;letter-spacing:0.22em;text-transform:uppercase}
 .topstrip .left{display:flex;gap:14px;align-items:center}
 .topstrip .gold{color:var(--gold)}
-.topstrip a{color:var(--cream);border:1px solid rgba(245,241,232,0.35);
+.topstrip nav{display:flex;gap:10px;flex-wrap:wrap}
+.topstrip nav a{color:var(--cream);border:1px solid rgba(245,241,232,0.35);
   padding:6px 14px;font-size:10px;letter-spacing:0.22em;text-decoration:none}
-.topstrip a:hover{background:rgba(245,241,232,0.1)}
+.topstrip nav a:hover{background:rgba(245,241,232,0.1)}
 
-.wrap{max-width:760px;margin:0 auto;padding:60px 28px 80px}
-
-.crest{width:60px;margin-bottom:14px;
-  filter:drop-shadow(0 1px 3px rgba(0,0,0,0.15));}
-.stamp{font-size:10px;letter-spacing:0.30em;color:var(--mute);
-  text-transform:uppercase;margin-bottom:6px;}
+.wrap{max-width:760px;margin:0 auto;padding:50px 28px 70px}
+.crest{width:60px;margin-bottom:14px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.15))}
+.stamp{font-size:10px;letter-spacing:0.30em;color:var(--mute);text-transform:uppercase;margin-bottom:6px}
 h1{font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
   font-size:clamp(34px,5vw,52px);line-height:1.05;margin:0 0 16px;color:var(--blue)}
 
-.lede{font-family:'New York','Georgia',serif;font-size:21px;line-height:1.5;color:var(--ink);margin:0 0 32px;font-style:italic;border-left:2px solid var(--gold);padding:8px 0 8px 22px;max-width:640px}
+.lede{font-family:'New York','Georgia',serif;font-size:19px;line-height:1.5;color:var(--ink);
+  margin:0 0 28px;font-style:italic;border-left:2px solid var(--gold);padding:8px 0 8px 22px;max-width:600px}
 
-h2{font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;font-size:26px;color:var(--blue);margin:42px 0 12px;}
-h3{font-size:15px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin:30px 0 8px;font-weight:700}
+h2{font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;font-size:24px;color:var(--blue);margin:34px 0 10px}
+.body p{font-family:'New York','Georgia',serif;font-size:17px;line-height:1.6;margin:0 0 12px;max-width:660px}
 
-p{margin:0 0 14px;max-width:680px}
-.body p{font-family:'New York','Georgia',serif;font-size:17px;line-height:1.65}
-
-.box{
-  background:#fff;border:1px solid var(--rule);
-  border-left:3px solid var(--gold);
-  padding:20px 22px;margin:24px 0;
+.callout{
+  background:#fff;border:1px solid var(--rule);border-left:3px solid var(--gold);
+  padding:18px 22px;margin:18px 0;
 }
-.box h4{margin:0 0 8px;font-size:11px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;font-weight:700}
-.box p{font-family:'New York','Georgia',serif;font-size:15.5px;line-height:1.55;margin:0;}
+.callout h4{margin:0 0 6px;font-size:10px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;font-weight:700}
+.callout p{font-family:'New York','Georgia',serif;font-size:15.5px;line-height:1.55;margin:0;font-style:italic}
 
-.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
 @media (max-width:580px){.two{grid-template-columns:1fr}}
 
-.row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin:4px 0}
-.row .lbl{font-size:11px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase}
-.row .val{font-family:'New York','Georgia',serif;font-size:15.5px}
+.tag{display:inline-block;font-size:10px;letter-spacing:0.18em;color:var(--gold);font-weight:700;
+  text-transform:uppercase;background:rgba(184,153,88,0.12);padding:3px 8px;margin:0 4px 4px 0}
 
-.kicker{font-size:10px;letter-spacing:0.22em;color:var(--gold);font-weight:700;text-transform:uppercase}
+.actions{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap}
+.actions a{appearance:none;background:var(--gold);color:#1a1206;border:none;
+  padding:13px 24px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+  font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.2s}
+.actions a.alt{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}
+.actions a:hover{background:var(--gold2);text-decoration:none}
+.actions a.alt:hover{background:rgba(27,58,92,0.08)}
 
-footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--rule);font-size:13px;color:var(--mute);line-height:1.7}
-footer .row2{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--rule);font-size:13px;color:var(--mute);line-height:1.7}
+footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 footer strong{color:var(--ink);font-weight:600}
 
-.play{appearance:none;background:var(--gold);color:#1a1206;border:none;
-  padding:13px 26px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
-  font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;
-  margin-top:18px;transition:background 0.2s}
-.play:hover{background:var(--gold2);text-decoration:none}
-
 @media (max-width:680px){
-  .topstrip{padding:8px 14px;font-size:9.5px;letter-spacing:0.18em}
-  .topstrip a{padding:5px 10px}
-  .wrap{padding:32px 18px 50px}
-  h1{font-size:30px}.lede{font-size:18px}
-  .body p{font-size:16px}
+  .topstrip{padding:8px 14px;font-size:9px;letter-spacing:0.16em;gap:8px}
+  .topstrip nav a{padding:4px 8px;font-size:9px}
+  .wrap{padding:28px 18px 40px}
+  h1{font-size:28px}.lede{font-size:16px}
+  .body p{font-size:15.5px}
 }
 </style>
 </head>
@@ -91,11 +82,13 @@ footer strong{color:var(--ink);font-weight:600}
 
 <div class="topstrip">
   <div class="left">
-    <span class="gold">Koninkrijk der Nederlanden</span>
-    <span style="opacity:0.6">·</span>
-    <span>Rijksdienst voor Gedeeld Beheer</span>
+    <span class="gold">RGB</span><span style="opacity:0.6">·</span><span>About</span>
   </div>
-  <a href="./">← Play the story</a>
+  <nav>
+    <a href="./">Play</a>
+    <a href="read.html">Archive</a>
+    <a href="wall.html">Wall</a>
+  </nav>
 </div>
 
 <div class="wrap">
@@ -109,100 +102,59 @@ footer strong{color:var(--ink);font-weight:600}
     <circle cx="50" cy="22" r="3.5" fill="url(#g)"/>
   </svg>
 
-  <div class="stamp">Project note · AI &amp; Society · Universiteit Leiden · May 2026</div>
-  <h1>About this artifact.</h1>
+  <div class="stamp">AI &amp; Society · Leiden · May 2026</div>
+  <h1>About.</h1>
 
   <p class="lede">
-    De Formulieren is the second annual report of a Dutch government authority that does not yet exist. The institution recognises and pays for the invisible labour that currently keeps Dutch precision-agriculture running.
+    A speculative annual report from a Dutch government authority that does not exist. The institution counts the work the farm-app cannot see.
   </p>
 
   <div class="body">
-    <h2>What is real, what is imagined.</h2>
+    <h2>The seed.</h2>
     <p>
-      The artifact is built around a single real interview with a senior farm advisor at a regional cooperative in the Eastern Netherlands, conducted on 16 April 2026. The labour the report counts — articulation work, repair, knowledge translation, care — is old and well documented. The legal authority that recognises this labour, <em>Rijksdienst voor Gedeeld Beheer</em>, is invented for the project.
-    </p>
-    <p>
-      The killer quote on every page is verbatim:
+      Built around a single real interview with a Dutch farm advisor on 16 April 2026. The labour the report counts — articulation work, repair, care — is old and well documented. The Authority is invented.
     </p>
 
-    <div class="box">
-      <h4>Field note · Deventer · 16 April 2026</h4>
+    <div class="callout">
+      <h4>Verbatim · Deventer · 16 April 2026</h4>
       <p>"My farmers are not afraid of apps. They are afraid of the forms the app is connected to."</p>
     </div>
 
-    <p>
-      The Foqus Planet sensors, the Beheerderskeurmerk score, the cow #17 incident, the WhatsApp groups titled <em>"what to answer when the inspector asks…"</em> — these are condensed from interview material. The names, codes, and form numbers are invented to give the artifact the texture of a real document.
-    </p>
-
-    <h2>Why this form.</h2>
-    <p>
-      Speculative design (Dunne &amp; Raby, Auger, Superflux) builds objects from a possible future to argue about the present. The annual report of a fictional authority makes a future visible enough that the present can be discussed without slipping into prediction or polemic.
-    </p>
-    <p>
-      The two-act story you can play — barn, then form — is the smallest version of the argument the report makes at length: that <strong>the cost of legibility is borne by the people the platform doesn't see</strong>, and that there exists a kind of institution that could count this cost.
-    </p>
-
     <h2>What I used AI for.</h2>
-    <p>
-      Two things, both declared:
-    </p>
-    <ul style="font-family:'New York','Georgia',serif;font-size:17px;line-height:1.65;padding-left:22px;max-width:680px">
-      <li>The coat of arms is a vector generated by <strong>Recraft V4.1</strong> from a written brief describing what the symbols should mean (shield, wheat sheaf, sensor band, three rules of the cooperative).</li>
-      <li>The eight atmospheric illustrations in the story-game are generated by <strong>FLUX.1 [dev]</strong> via fal.ai from prompts describing each scene in Rembrandt-style oil-paint, navy-and-cream palette.</li>
-    </ul>
-    <p>
-      All the writing — the booklet, the form prompts, the story choices, the killer quote framing, the case files — is mine, except the verbatim interview quote above and the academic citations.
-    </p>
+    <p><span class="tag">Recraft V4.1</span> The coat of arms — generated from a written brief about what the symbols should mean.</p>
+    <p><span class="tag">FLUX.1 [dev] via fal.ai</span> The eight oil-paint illustrations in the story.</p>
+    <p>All the writing — the booklet, the form prompts, the choices — is mine.</p>
 
     <h2>Intellectual debts.</h2>
     <div class="two">
-      <div class="box">
-        <h4>Pfaffenberger 1992</h4>
-        <p>Technological dramas. Why every artifact is also an argument.</p>
-      </div>
-      <div class="box">
-        <h4>Star &amp; Strauss 1999</h4>
-        <p>Layers of silence, arenas of voice. Articulation work as a category.</p>
-      </div>
-      <div class="box">
-        <h4>Bowker &amp; Star 1999</h4>
-        <p>Sorting Things Out. Classification systems and their costs.</p>
-      </div>
-      <div class="box">
-        <h4>Winner 1980 · Morozov 2013</h4>
-        <p>Do artifacts have politics? · Solutionism and its limits.</p>
-      </div>
+      <div class="callout"><h4>Pfaffenberger 1992</h4><p>Why every artifact is also an argument.</p></div>
+      <div class="callout"><h4>Star &amp; Strauss 1999</h4><p>Articulation work as a category.</p></div>
+      <div class="callout"><h4>Bowker &amp; Star 1999</h4><p>Classification and its costs.</p></div>
+      <div class="callout"><h4>Winner · Morozov</h4><p>Politics of artifacts. Limits of solutionism.</p></div>
     </div>
 
-    <h2>Things I would do differently.</h2>
+    <h2>What I'd do differently.</h2>
     <p>
-      One interview is not a sample. A real version of this report would interview the farmers themselves, not just their advisor; would have a Dutch translation; would be reviewed by the cooperative before publication. The current artifact is a first sketch from a single voice — declared as such, and stronger for the declaration.
+      One interview is not a sample. A real version would talk to farmers directly, have a Dutch translation, and be reviewed by the cooperative.
     </p>
 
-    <h2>The piece you are holding.</h2>
-    <div class="box">
-      <h4>Files in the public register</h4>
-      <p>
-        <strong>An annual report</strong> (40 pages, A5), <strong>a quote poster</strong> (A1 and A4), <strong>a refusal notice</strong>, <strong>a stewardship statement pad</strong>, <strong>a stewardship recognition certificate</strong>, <strong>six case file cards</strong>, <strong>an author's note</strong>, <strong>process notes</strong>, and <strong>an interactive story</strong> with form-fill.
-      </p>
+    <div class="actions">
+      <a href="./">Play the story →</a>
+      <a href="read.html" class="alt">Read the archive</a>
+      <a href="wall.html" class="alt">The wall</a>
     </div>
-
-    <a class="play" href="./">Play the 3-minute story →</a>
-    &nbsp; &nbsp;
-    <a class="play" href="read.html" style="background:transparent;color:var(--blue);border:1.5px solid var(--blue)">Read the archive →</a>
   </div>
 
   <footer>
-    <div class="row2">
+    <div class="row">
       <div>
         <strong>The labour it counts is old.</strong><br>
-        The institution does not exist. The forms do not exist.<br>
-        The prompts are real.
+        The institution does not exist. The prompts are real.
       </div>
       <div style="text-align:right">
-        <strong>Mohammadreza AhmadiTeshnizi</strong><br>
-        AI &amp; Society · Universiteit Leiden · May 2026<br>
-        <a href="https://github.com/teshnizi2/de-formulieren">github.com/teshnizi2/de-formulieren</a>
+        <strong>M. AhmadiTeshnizi</strong><br>
+        AI &amp; Society · Leiden · May 2026<br>
+        <a href="https://github.com/teshnizi2/de-formulieren">github</a>
       </div>
     </div>
   </footer>

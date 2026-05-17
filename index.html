@@ -414,6 +414,24 @@ input,textarea{user-select:text;-webkit-user-select:text}
   opacity:0;animation:stamp 0.9s ease-out 0.3s forwards;
 }
 
+/* Star rating widget */
+.stars-row{display:flex;gap:6px;margin-top:4px;align-items:center}
+.star-btn{
+  appearance:none;background:transparent;border:none;cursor:pointer;
+  font-size:32px;color:#C9B98E;padding:4px 2px;line-height:1;
+  font-family:Arial,sans-serif;transition:transform 0.15s, color 0.15s;
+}
+.star-btn:hover{transform:scale(1.18) translateY(-2px)}
+.star-btn:active{transform:scale(0.92)}
+.star-btn.active{color:var(--gold);text-shadow:0 0 10px rgba(184,153,88,0.5)}
+.star-btn.hover-on{color:var(--gold2)}
+.stars-label{font-size:13px;color:var(--mute);margin-left:8px;font-style:italic;font-family:'New York','Georgia',serif}
+.stars-label .num{color:var(--blue);font-weight:600;font-style:normal;font-family:'Helvetica Neue',sans-serif;letter-spacing:0.02em}
+@keyframes starpop{
+  0%{transform:scale(1)}50%{transform:scale(1.4) rotate(10deg)}100%{transform:scale(1)}
+}
+.star-btn.pop{animation:starpop 0.4s ease-out}
+
 /* ─── End card ─────────────────────────────────────────────────────────── */
 #endcard{
   position:absolute;inset:0;z-index:9;
@@ -552,18 +570,20 @@ input,textarea{user-select:text;-webkit-user-select:text}
       stroke="url(#g)" stroke-width="1.4" fill="none"/>
     <circle cx="50" cy="22" r="3.5" fill="url(#g)"/>
   </svg>
-  <div class="stamp">Koninkrijk der Nederlanden &nbsp;·&nbsp; Rijksdienst voor Gedeeld Beheer</div>
-  <h1>De Formulieren<span class="sub">— a story about a farmer, an app, and a form —</span></h1>
-  <h2>Three minutes &nbsp;·&nbsp; Two choices &nbsp;·&nbsp; One sentence you write yourself</h2>
+  <div class="stamp">Rijksdienst voor Gedeeld Beheer</div>
+  <h1>De Formulieren<span class="sub">a 3-minute story</span></h1>
   <div class="quote">
     "My farmers are not afraid of apps. They are afraid of the forms the app is connected to."
-    <cite>— Senior farm advisor, Eastern Netherlands, 16 April 2026</cite>
+    <cite>— Senior farm advisor, 16 April 2026</cite>
   </div>
-  <button class="start-btn" onclick="startGame(event)">Begin the night &nbsp;→</button>
-  <div style="margin-top:16px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center"><a href="read.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">Read the archive →</a><a href="wall.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">The wall →</a><a href="about.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">About →</a></div>
+  <button class="start-btn" onclick="startGame(event)">Begin &nbsp;→</button>
+  <div style="margin-top:18px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center">
+    <a href="read.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">Archive</a>
+    <a href="wall.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">The wall</a>
+    <a href="about.html" style="color:var(--cream2);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(245,241,232,0.25);padding-bottom:2px">About</a>
+  </div>
   <div class="credits">
-    AI &amp; Society · Universiteit Leiden · May 2026 · M. AhmadiTeshnizi<br>
-    Illustrations by FLUX.1 [dev] via fal.ai · The Authority does not exist
+    AI &amp; Society · Leiden · May 2026 · M. AhmadiTeshnizi
   </div>
 </div>
 
@@ -629,19 +649,19 @@ const BEATS = {
   intro: {
     bg:'barn', chapter:'I', time:'22:43',
     meta:'A barn in the Netherlands · 8 May 2031',
-    text:'You are a dairy farmer. <strong>Forty cows. Three generations on this land.</strong> It is late. The barn is quiet. Your cows are asleep. <em>Tomorrow morning, the farm app sends its monthly report to the government.</em>',
+    text:'You are a dairy farmer. <strong>Forty cows.</strong> The barn is quiet. Your cows are asleep. <em>Tomorrow morning the farm app sends its monthly report to the government.</em>',
     next:'phone_alert'
   },
   phone_alert: {
     bg:'phone', notif:'battery', chapter:'I', time:'22:43',
     meta:'A push notification from the farm app',
-    text:'Your phone buzzes. <strong>The sensor on cow #17 is running out of battery.</strong> If you do nothing, the app will see a gap in the data — and lower your score in the morning. Outside, it is raining hard.',
+    text:'Your phone buzzes. <strong>The sensor on cow #17 is dying.</strong> Do nothing and the app sees a gap and lowers your score. Outside, it is raining hard.',
     choices:[
       {key:'A', label:'Go out now and change the battery.',
-        hint:"You'll get soaked. But your score stays clean.",
+        hint:"You get soaked. Your score stays clean.",
         next:'went_out', tag:'went'},
-      {key:'B', label:'Sleep. Deal with it in the morning.',
-        hint:"The app will see a gap. Your score will drop.",
+      {key:'B', label:'Sleep. Fix it in the morning.',
+        hint:"The app sees a gap. Your score drops.",
         next:'slept_in', tag:'slept'},
     ]
   },
@@ -650,13 +670,13 @@ const BEATS = {
   went_out: {
     bg:'cow', chapter:'II', time:'23:14',
     meta:'Stall 17 · The battery is changed',
-    text:"You crouch in the mud. The cow — you call her <em>Femke</em> — chews calmly while you change the battery with cold fingers. Done by 23:14. <strong>Your score is safe.</strong> Your coat is soaked. Your boots are heavier than the cow.",
+    text:"You crouch in the mud. The cow — you call her <em>Femke</em> — chews calmly while you change the battery. Done by 23:14. <strong>Score safe. Coat soaked.</strong>",
     next:'went_out_reflect'
   },
   went_out_reflect: {
     bg:'interior', chapter:'II', time:'23:39',
     meta:'Walking back through the barn',
-    text:"You walk back through the long aisle. The cows breathe softly. You just did <em>half an hour of unpaid work for an app you do not own.</em> The app will record a perfect score. It will record nothing about the rain.",
+    text:"The cows breathe softly. You just did <em>half an hour of unpaid work for an app you do not own.</em> The app will record a perfect score. <strong>It records nothing about the rain.</strong>",
     choices:[{key:'→', label:'Go to bed.', next:'morning'}]
   },
 
@@ -665,27 +685,27 @@ const BEATS = {
     bg:'kitchen', chapter:'II', time:'04:48', notif:'gap',
     score:-3, scoreFlash:'bad',
     meta:'Kitchen window · Before dawn',
-    text:'You wake before dawn. Rain still falling. Your phone is full of warnings. The app sees a <strong>6-hour gap</strong> in the data and has flagged your barn as a <em>"possible welfare concern."</em> Your score dropped three points overnight. <em>The app cannot tell rest from neglect.</em>',
+    text:'You wake before dawn. Your phone is full of warnings. The app saw a <strong>6-hour gap</strong> and flagged your barn as a <em>"possible welfare concern."</em> Score dropped three points. <em>The app cannot tell rest from neglect.</em>',
     next:'slept_in_reflect'
   },
   slept_in_reflect: {
     bg:'rain', chapter:'II', time:'05:04',
     meta:'Out in the pasture · The cows are fine',
-    text:"You go check anyway. The cows are calm. Femke chews her cud, indifferent to the score. <em>You know your cows are fine.</em> But the app didn't ask you. It just measured.",
+    text:"The cows are calm. Femke chews her cud. <em>You know your cows are fine.</em> But the app didn't ask. It just measured.",
     choices:[{key:'→', label:'Your phone rings. It is the cooperative.', next:'morning'}]
   },
 
   /* ─── ACT III — The choice ──────────────────────────────────────── */
   morning: {
     bg:'desk', chapter:'III', time:'07:32',
-    meta:'A phone call from the cooperative',
-    text:'Your cooperative chair calls. <em>"The app flagged your barn overnight. The government inspector will see it in this month\'s report. What do we tell them?"</em> The desk lamp is on. A blank form lies in front of you.',
+    meta:'A call from the cooperative',
+    text:'<em>"The app flagged your barn. The inspector will see it. What do we tell them?"</em> The desk lamp is on. A blank form sits in front of you.',
     choices:[
-      {key:'A', label:'Lie. Tell the app the gap was a "calibration test."',
-        hint:'Quick. Your score is restored. Nobody will ever know there was rain.',
+      {key:'A', label:'Lie. Call the gap a "calibration test."',
+        hint:'Score restored. Nobody knows there was rain.',
         next:'preact', tag:'preact'},
-      {key:'B', label:'Tell the truth. Write a letter to the government.',
-        hint:"Your score stays low. You write — in your own words — what the app did not see.",
+      {key:'B', label:'Tell the truth. Write a letter.',
+        hint:"Score stays low. You write what the app did not see.",
         next:'fill_form', tag:'postact', refuse:true},
     ]
   },
@@ -695,7 +715,7 @@ const BEATS = {
     bg:'desk', chapter:'IV', time:'07:51',
     meta:'A small lie typed into the app',
     score:+3, scoreFlash:'good',
-    text:'You type into the app: <em>"manual calibration window, 22:43 to 04:55."</em> The app has a tidy field for that. Your score is restored. <em>You have taught the app to never see this kind of night.</em> The next inspector will not know there was rain. The next farmer will not know it was allowed to rain.',
+    text:'You type: <em>"manual calibration window, 22:43 to 04:55."</em> The app absorbs it. Score restored. <em>You have taught the app to never see this kind of night.</em>',
     next:'preact_end'
   },
 
@@ -704,16 +724,18 @@ const BEATS = {
     type:'form', bg:'desk', chapter:'IV', time:'08:14',
     meta:'A letter to the government',
     title:'Stewardship Statement',
-    lede:'You are writing a letter the inspector will have to read. Use your own words. Nothing here is wrong.',
+    lede:'Write in your own words. Nothing here is wrong.',
     fields:[
-      {id:'name', label:'Your name (or initials)', type:'input', placeholder:'P.B.', maxlength:40,
-        helper:'Whatever you write here will appear on the official seal.'},
-      {id:'invisible_work', label:'What did you do tonight that the app cannot see?',
-        type:'textarea', placeholder:'I let her sleep. I…', maxlength:280, num:'1.',
-        helper:'A texture, a smell, a tone of voice, a patience. Anything the app has no field for.'},
+      {id:'name', label:'Your name (or initials)', type:'input', placeholder:'P.B.', maxlength:40},
+      {id:'invisible_work', label:'What did you do that the app cannot see?',
+        type:'textarea', placeholder:'I let her sleep…', maxlength:280, num:'1.'},
       {id:'what_work_needs', label:"What does your work need that no app asks about?",
-        type:'textarea', placeholder:'A kind of attention. A kind of waiting…', maxlength:280, num:'2.',
-        helper:'Speak in your own voice. The Authority will accept the letter in the form in which it is written.'},
+        type:'textarea', placeholder:'A kind of attention…', maxlength:280, num:'2.'},
+      {id:'rating', label:'How does this story land for you?',
+        type:'stars', max:5, num:'3.',
+        helper:'Stepping out of the story for a moment — your honest rating helps me improve.'},
+      {id:'feedback', label:'Anything for the maker? (optional)',
+        type:'textarea', placeholder:'One thing that landed, one thing that didn\'t…', maxlength:280, num:'4.'},
     ],
     submit:'Sign and send',
     next:'cert_personalized'
@@ -1013,14 +1035,57 @@ function buildForm(beat){
     const lbl = document.createElement('label');
     lbl.innerHTML = (field.num?`<span class="num">${field.num}</span>`:'') + field.label;
     div.appendChild(lbl);
-    const ctl = document.createElement(field.type==='textarea'?'textarea':'input');
-    ctl.placeholder = field.placeholder || '';
-    ctl.maxLength = field.maxlength || 200;
-    ctl.id = 'f_'+field.id;
-    ctl.autocomplete = 'off'; ctl.spellcheck = false;
-    if(field.id==='name') ctl.style.fontFamily="'Dancing Script','Brush Script MT',cursive";
-    if(field.id==='name'){ ctl.style.fontSize='22px'; ctl.style.color='var(--blue)'; }
-    div.appendChild(ctl);
+
+    if(field.type==='stars'){
+      const max = field.max || 5;
+      const row = document.createElement('div'); row.className='stars-row';
+      const lblOut = document.createElement('span'); lblOut.className='stars-label';
+      lblOut.innerHTML = '<em>tap to rate</em>';
+      const hidden = document.createElement('input');
+      hidden.type='hidden'; hidden.id='f_'+field.id; hidden.value='';
+      div.appendChild(hidden);
+      const labels = ['','meh','okay','good','great','wow'];
+      for(let i=1; i<=max; i++){
+        const b = document.createElement('button');
+        b.type='button'; b.className='star-btn'; b.textContent='★';
+        b.dataset.val=i;
+        b.onmouseenter = ()=>{
+          row.querySelectorAll('.star-btn').forEach((x,idx)=> x.classList.toggle('hover-on', idx<i));
+          tone(900+i*120, 0.03, 0.025, 'triangle');
+        };
+        b.onmouseleave = ()=>{
+          row.querySelectorAll('.star-btn').forEach(x=>x.classList.remove('hover-on'));
+        };
+        b.onclick = (ev)=>{
+          hidden.value = String(i);
+          row.querySelectorAll('.star-btn').forEach((x,idx)=>{
+            x.classList.toggle('active', idx<i);
+            if(idx<i){
+              setTimeout(()=>{x.classList.remove('pop'); void x.offsetWidth; x.classList.add('pop');}, idx*40);
+            }
+          });
+          lblOut.innerHTML = `<span class="num">${i}/${max}</span> · <em>${labels[i]||''}</em>`;
+          buzz(8 + i*4);
+          if(i===5){ chime(); setTimeout(chime, 120); }
+          else if(i>=3){ chime(); }
+          else { tone(440,0.08,0.04); }
+          hidden.dispatchEvent(new Event('input', {bubbles:true}));
+        };
+        row.appendChild(b);
+      }
+      row.appendChild(lblOut);
+      div.appendChild(row);
+    } else {
+      const ctl = document.createElement(field.type==='textarea'?'textarea':'input');
+      ctl.placeholder = field.placeholder || '';
+      ctl.maxLength = field.maxlength || 200;
+      ctl.id = 'f_'+field.id;
+      ctl.autocomplete = 'off'; ctl.spellcheck = false;
+      if(field.id==='name') ctl.style.fontFamily="'Dancing Script','Brush Script MT',cursive";
+      if(field.id==='name'){ ctl.style.fontSize='22px'; ctl.style.color='var(--blue)'; }
+      div.appendChild(ctl);
+    }
+
     if(field.helper){
       const h = document.createElement('div'); h.className='helper';
       h.textContent = field.helper; div.appendChild(h);
@@ -1070,12 +1135,15 @@ function buildForm(beat){
       const body = [];
       if(state.form.invisible_work) body.push(state.form.invisible_work);
       if(state.form.what_work_needs) body.push(state.form.what_work_needs);
+      const rating = parseInt(state.form.rating || '0', 10) || 0;
       stored.push({
         no:`14.3-V${nextNo}`,
         name:state.form.name || 'Anonymous',
         loc:'Filed via the booth',
         date,
         body,
+        rating,
+        feedback:state.form.feedback || '',
         isMine:true,
         ts:Date.now()
       });

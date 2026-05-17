@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#1B3A5C" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <meta property="og:title" content="The Wall — De Formulieren" />
-<meta property="og:description" content="A public register of refusals. What farmers wrote on the form the app does not have." />
-<meta property="og:image" content="https://teshnizi2.github.io/de-formulieren/og.jpg" />
+<meta property="og:description" content="What people wrote on the form the app does not have." />
+<meta property="og:image" content="og.jpg" />
 <title>The Wall — De Formulieren</title>
 
 <style>
@@ -18,55 +18,77 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);
-  font-family:'Helvetica Neue','Helvetica',Arial,sans-serif;
-  font-size:16px;line-height:1.55}
+  font-family:'Helvetica Neue','Helvetica',Arial,sans-serif;font-size:16px;line-height:1.55}
 a{color:var(--blue);text-decoration:none}
 a:hover{text-decoration:underline}
 
 .topstrip{background:var(--blue);color:var(--cream);padding:10px 22px;
   display:flex;justify-content:space-between;align-items:center;gap:14px;
-  font-size:11px;letter-spacing:0.22em;text-transform:uppercase;}
+  font-size:11px;letter-spacing:0.22em;text-transform:uppercase}
 .topstrip .left{display:flex;gap:14px;align-items:center}
 .topstrip .gold{color:var(--gold)}
-.topstrip a{color:var(--cream);border:1px solid rgba(245,241,232,0.35);
+.topstrip nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.topstrip nav a{color:var(--cream);border:1px solid rgba(245,241,232,0.35);
   padding:6px 14px;font-size:10px;letter-spacing:0.22em;text-decoration:none}
-.topstrip a:hover{background:rgba(245,241,232,0.1)}
+.topstrip nav a:hover{background:rgba(245,241,232,0.1)}
 
 .hero{max-width:1100px;margin:0 auto;padding:40px 28px 14px}
 .stamp{font-size:10px;letter-spacing:0.30em;color:var(--mute);text-transform:uppercase;margin-bottom:6px}
 h1{font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
   font-size:clamp(34px,5vw,52px);line-height:1.05;margin:0 0 8px;color:var(--blue)}
-h1 .sub{display:block;font-size:0.48em;color:var(--mute);margin-top:6px;font-style:normal;letter-spacing:0.04em}
-.lede{font-family:'New York','Georgia',serif;font-size:17.5px;line-height:1.55;color:var(--ink);max-width:680px;margin:8px 0 0;font-style:italic}
-.lede em{color:var(--blue);font-style:italic}
+h1 .sub{display:block;font-size:0.46em;color:var(--mute);margin-top:6px;font-style:normal;letter-spacing:0.04em}
+.lede{font-family:'New York','Georgia',serif;font-size:17px;line-height:1.55;color:var(--ink);
+  max-width:600px;margin:6px 0 0;font-style:italic}
 
 .hero-rule{max-width:1100px;margin:18px auto 0;padding:0 28px}
 .hero-rule .blue{height:1.4pt;background:var(--blue)}
 .hero-rule .gold{height:0.4pt;background:var(--gold);margin-top:1px}
 
-.cta{max-width:1100px;margin:24px auto 4px;padding:0 28px;
+/* Stats panel — big numbers */
+.statwrap{max-width:1100px;margin:30px auto 0;padding:0 28px}
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));gap:14px;
+}
+.stat{
+  background:#fff;border:1px solid var(--rule);
+  padding:18px 22px;text-align:left;position:relative;overflow:hidden;
+}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.stat .lbl{font-size:9px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;font-weight:700}
+.stat .val{font-family:'New York','Georgia',serif;font-style:italic;font-size:34px;
+  color:var(--blue);margin-top:6px;line-height:1.1}
+.stat .sub{font-size:11px;color:var(--mute);margin-top:4px;font-style:italic}
+
+/* CTA */
+.cta{max-width:1100px;margin:26px auto 4px;padding:0 28px;
   display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.cta .play{appearance:none;background:var(--gold);color:#1a1206;border:none;
+.cta .play{background:var(--gold);color:#1a1206;border:none;
   padding:12px 24px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
-  font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;
-  transition:background 0.2s}
+  font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.2s}
 .cta .play:hover{background:var(--gold2);text-decoration:none}
 .cta .note{font-size:13px;color:var(--mute);font-style:italic;flex:1;min-width:200px}
 
-.section{max-width:1100px;margin:34px auto 0;padding:0 28px}
+/* Filter chips */
+.filters{max-width:1100px;margin:24px auto 12px;padding:0 28px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  background:#fff;border:1px solid var(--rule);color:var(--ink);
+  padding:6px 12px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  cursor:pointer;font-family:inherit;transition:background 0.2s, border 0.2s, color 0.2s;
+}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:var(--cream)}
+.chip .num{color:var(--gold);font-weight:700;margin-left:4px;font-style:italic}
+
+.section{max-width:1100px;margin:14px auto 0;padding:0 28px}
 .section h2{font-family:'New York','Georgia',serif;font-style:italic;font-weight:400;
   font-size:24px;color:var(--blue);margin:0 0 4px}
-.section .desc{font-size:13px;color:var(--mute);margin:0 0 22px;font-style:italic;max-width:640px;line-height:1.55}
+.section .desc{font-size:13px;color:var(--mute);margin:0 0 18px;font-style:italic;max-width:640px;line-height:1.55}
 
-.wall{
-  display:grid;gap:18px;
-  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-}
+.wall{display:grid;gap:18px;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))}
 
 .slip{
   background:#fff;border:1px solid var(--rule);
-  position:relative;padding:18px 20px 16px;
-  display:flex;flex-direction:column;
+  position:relative;padding:18px 20px 16px;display:flex;flex-direction:column;
   box-shadow:0 4px 12px rgba(27,58,92,0.06);
   transition:transform 0.2s, box-shadow 0.2s;
   font-family:'New York','Georgia',serif;
@@ -74,22 +96,27 @@ h1 .sub{display:block;font-size:0.48em;color:var(--mute);margin-top:6px;font-sty
 }
 .slip.reveal{opacity:1;transform:translateY(0);
   transition:opacity 0.6s ease-out, transform 0.6s ease-out}
-.slip:hover{transform:translateY(-3px);
-  box-shadow:0 10px 28px rgba(27,58,92,0.18)}
-.slip::before{
-  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:var(--gold);
-}
+.slip:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(27,58,92,0.18)}
+.slip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
 .slip .head{
   display:flex;justify-content:space-between;align-items:baseline;gap:14px;
   font-family:'Helvetica Neue',sans-serif;font-size:9px;letter-spacing:0.22em;
-  color:var(--mute);text-transform:uppercase;margin-bottom:14px;
+  color:var(--mute);text-transform:uppercase;margin-bottom:12px;
   border-bottom:1px solid rgba(201,185,142,0.5);padding-bottom:8px}
 .slip .form-no{color:var(--blue);font-weight:700}
-.slip .body{font-size:16px;line-height:1.55;color:var(--ink);font-style:italic;flex:1;
-  margin:0 0 14px}
+.slip .stars{
+  color:var(--gold);font-size:14px;letter-spacing:0.08em;margin-bottom:8px;
+}
+.slip .stars .empty{color:var(--rule)}
+.slip .body{font-size:16px;line-height:1.55;color:var(--ink);font-style:italic;flex:1;margin:0 0 12px}
 .slip .body p{margin:0 0 8px}
 .slip .body p:last-child{margin:0}
+.slip .feedback{
+  font-size:13px;color:var(--mute);font-style:italic;
+  margin:6px 0 12px;padding:8px 10px;background:rgba(245,241,232,0.6);
+  border-left:2px solid var(--rule);
+}
+.slip .feedback::before{content:"feedback · ";color:var(--gold);font-style:normal;font-weight:700;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;font-family:'Helvetica Neue',sans-serif}
 .slip .meta{
   display:flex;justify-content:space-between;align-items:baseline;gap:12px;
   font-family:'Helvetica Neue',sans-serif;font-size:10px;letter-spacing:0.18em;
@@ -97,43 +124,34 @@ h1 .sub{display:block;font-size:0.48em;color:var(--mute);margin-top:6px;font-sty
   border-top:1px solid rgba(201,185,142,0.5);padding-top:8px}
 .slip .sig{
   font-family:'Dancing Script','Brush Script MT',cursive;
-  font-size:18px;color:var(--blue);font-style:italic;letter-spacing:normal;
-  text-transform:none;
-}
+  font-size:18px;color:var(--blue);font-style:italic;letter-spacing:normal;text-transform:none}
+.slip.high-rating{box-shadow:0 6px 16px rgba(184,153,88,0.18);border-color:rgba(184,153,88,0.5)}
 .slip.mine::before{background:var(--red)}
 .slip.mine .form-no{color:var(--red)}
 .slip.mine .head::after{
   content:"YOURS";position:absolute;top:14px;right:18px;
   background:var(--red);color:#fff;font-size:9px;letter-spacing:0.22em;
-  padding:2px 8px;font-weight:700}
-.slip.recent::after{
-  content:"";position:absolute;top:0;right:0;width:0;height:0;
-  border-top:18px solid var(--gold);border-left:18px solid transparent;
+  padding:2px 8px;font-weight:700;font-family:'Helvetica Neue',sans-serif}
+
+.empty-state{
+  background:#fff;border:1px dashed var(--rule);
+  padding:40px 20px;text-align:center;color:var(--mute);font-style:italic;
+  font-family:'New York','Georgia',serif;font-size:15px;
 }
 
-.stat-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:18px 0 28px}
-.stat{
-  background:#fff;border:1px solid var(--rule);
-  padding:12px 22px;text-align:center;min-width:140px;
-}
-.stat .lbl{font-size:9px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;font-weight:700}
-.stat .val{font-family:'New York','Georgia',serif;font-style:italic;
-  font-size:26px;color:var(--blue);margin-top:4px}
-
-footer{
-  max-width:1100px;margin:60px auto 0;padding:30px 28px 50px;
-  border-top:1px solid var(--rule);
-  font-size:12px;color:var(--mute);line-height:1.7}
+footer{max-width:1100px;margin:60px auto 0;padding:30px 28px 50px;
+  border-top:1px solid var(--rule);font-size:12px;color:var(--mute);line-height:1.7}
 footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 footer strong{color:var(--ink);font-weight:600}
 
 @media (max-width:680px){
-  .topstrip{padding:8px 14px;font-size:9.5px;letter-spacing:0.18em}
-  .topstrip a{padding:5px 10px}
-  .hero{padding:28px 18px 14px}
-  h1{font-size:28px}
-  .lede{font-size:15.5px}
-  .section{padding:0 18px}
+  .topstrip{padding:8px 14px;font-size:9px;letter-spacing:0.16em;gap:8px}
+  .topstrip nav a{padding:4px 8px;font-size:9px}
+  .hero{padding:24px 18px 12px}
+  h1{font-size:26px}
+  .lede{font-size:14.5px}
+  .statwrap, .cta, .filters, .section{padding:0 18px}
+  .stat .val{font-size:28px}
   .wall{gap:14px;grid-template-columns:1fr}
   .slip{padding:16px 18px 14px}
   footer{padding:24px 18px 36px}
@@ -144,35 +162,35 @@ footer strong{color:var(--ink);font-weight:600}
 
 <div class="topstrip">
   <div class="left">
-    <span class="gold">Koninkrijk der Nederlanden</span>
-    <span style="opacity:0.6">·</span>
-    <span>Rijksdienst voor Gedeeld Beheer</span>
+    <span class="gold">RGB</span><span style="opacity:0.6">·</span>
+    <span>Public Register</span>
   </div>
-  <a href="./">← Play the story</a>
+  <nav>
+    <a href="./">Play</a>
+    <a href="read.html">Archive</a>
+    <a href="about.html">About</a>
+  </nav>
 </div>
 
 <div class="hero">
-  <div class="stamp">Public Register · Form 14.3 · Stewardship Statements received</div>
-  <h1>The wall<span class="sub">— what people wrote on the form the app does not have —</span></h1>
-  <p class="lede">
-    Each card below is one filing under Article 14(3) of the Wet op het Gedeeld Beheer.
-    The Authority does not edit the testimony. <em>The form is offered. The form is accepted in the form in which it is offered.</em>
-  </p>
+  <div class="stamp">Form 14.3 · Public Register</div>
+  <h1>The wall<span class="sub">what people wrote on the form the app does not have</span></h1>
+  <p class="lede">Each card is a single filing. Play the story to add yours.</p>
 </div>
 <div class="hero-rule"><div class="blue"></div><div class="gold"></div></div>
 
+<div class="statwrap">
+  <div class="stats" id="stats"></div>
+</div>
+
 <div class="cta">
-  <a href="./" class="play">Play the story to add yours →</a>
-  <span class="note">The wall is the public register. Filing one is the way to enter.</span>
+  <a href="./" class="play">Play the story →</a>
+  <span class="note">Filing one is the way to enter.</span>
 </div>
 
-<div class="section">
-  <div class="stat-row" id="stat-row"></div>
-</div>
+<div class="filters" id="filters"></div>
 
 <div class="section">
-  <h2>Filings</h2>
-  <p class="desc">Newest first. Visitors' filings sit alongside the cases the Authority has on its books.</p>
   <div class="wall" id="wall"></div>
 </div>
 
@@ -180,101 +198,140 @@ footer strong{color:var(--ink);font-weight:600}
   <div class="row">
     <div>
       <strong>The labour it counts is old.</strong><br>
-      The Authority is invented. The filings are mostly invented too.<br>
-      Yours, if you played, is yours.
+      The Authority is invented. The filings are mostly invented too.
     </div>
     <div style="text-align:right">
-      <strong>De Formulieren</strong> &middot; AI &amp; Society · Universiteit Leiden · May 2026<br>
-      <a href="about.html">About the project</a> &middot; <a href="read.html">Archive</a> &middot; <a href="https://github.com/teshnizi2/de-formulieren">Source</a>
+      <strong>De Formulieren</strong> · Leiden · May 2026<br>
+      <a href="about.html">About</a> · <a href="read.html">Archive</a> · <a href="https://github.com/teshnizi2/de-formulieren">Source</a>
     </div>
   </div>
 </footer>
 
 <script>
-// Seeded entries from the Authority's case files
+// Seeded entries from the Authority's case files (now with ratings)
 const SEED = [
-  {no:'14.3-0001', name:'P.B.', loc:'Voorst · dairy', date:'8 May 2031',
+  {no:'14.3-0001', name:'P.B.', loc:'Voorst · dairy', date:'8 May 2031', rating:5,
    body:["I let her sleep. The rain was real, the cows were calm, and rest is not the same as neglect.",
          "I do not believe rest and neglect are the same thing — and the app cannot tell them apart."]},
-  {no:'14.3-0007', name:'R.V.', loc:'Betuwe · orchard', date:'14 Apr 2031',
+  {no:'14.3-0007', name:'R.V.', loc:'Betuwe · orchard', date:'14 Apr 2031', rating:4,
    body:["The frost arrived three days before the platform learned the word. I covered the trees in the dark. It paid me nothing.",
-         "I needed silence, a torch, and the patience to do it twice. The app has no field for any of those."]},
-  {no:'14.3-0019', name:'M.K.', loc:'Drenthe · goat', date:'2 May 2031',
-   body:["The app counted my goats as a herd. They are seventy-three individuals. I know each one's voice.",
-         "When the app cannot tell two animals apart, I am the one doing the telling."]},
-  {no:'14.3-0032', name:'T.D.', loc:'Limburg · poultry', date:'18 Mar 2031',
+         "I needed silence, a torch, and the patience to do it twice."]},
+  {no:'14.3-0019', name:'M.K.', loc:'Drenthe · goat', date:'2 May 2031', rating:5,
+   body:["The app counted my goats as a herd. They are seventy-three individuals. I know each one's voice."]},
+  {no:'14.3-0032', name:'T.D.', loc:'Limburg · poultry', date:'18 Mar 2031', rating:3,
    body:["The audit was happy and the chickens were not. I refuse this trade."]},
-  {no:'14.3-0048', name:'K.J.', loc:'Friesland · sheep', date:'27 Apr 2031',
+  {no:'14.3-0048', name:'K.J.', loc:'Friesland · sheep', date:'27 Apr 2031', rating:5,
    body:["I helped my neighbour for two days while her son was in hospital. There is no field for that.",
          "I am filing this in case the field appears."]},
-  {no:'14.3-0061', name:'H.O. (chair)', loc:'Twente · cooperative', date:'1 May 2031',
-   body:["We declined the private sustainability score. We submit this refusal in its place.",
-         "The score was an estimate. This is an account."]},
-  {no:'14.3-0073', name:'S.B.', loc:'Voorst · dairy', date:'30 Apr 2031',
-   body:["The sensor on cow #34 was working fine. I retired her because she was tired.",
-         "The platform marked it 'voluntary cull, suboptimal use'. That is not what I would call it."]},
-  {no:'14.3-0084', name:'A.M.', loc:'Zeeland · arable', date:'24 Mar 2031',
-   body:["The rotation that the app recommended would have killed the soil. I refused the recommendation.",
-         "I read the soil with my hands. The platform reads it with a model trained somewhere else."]},
-  {no:'14.3-0102', name:'L.W.', loc:'Gelderland · cattle', date:'12 Apr 2031',
+  {no:'14.3-0061', name:'H.O.', loc:'Twente · cooperative', date:'1 May 2031', rating:4,
+   body:["We declined the private sustainability score. The score was an estimate. This is an account."]},
+  {no:'14.3-0073', name:'S.B.', loc:'Voorst · dairy', date:'30 Apr 2031', rating:5,
+   body:["I retired cow #34 because she was tired. The platform marked it 'voluntary cull, suboptimal use'.",
+         "That is not what I would call it."]},
+  {no:'14.3-0084', name:'A.M.', loc:'Zeeland · arable', date:'24 Mar 2031', rating:4,
+   body:["The rotation the app recommended would have killed the soil. I read the soil with my hands.",
+         "The platform reads it with a model trained somewhere else."]},
+  {no:'14.3-0102', name:'L.W.', loc:'Gelderland · cattle', date:'12 Apr 2031', rating:5,
    body:["I called my daughter to come home from the city on a Saturday. We worked together until midnight.",
          "Family is not a job that has a field. It is a job that gets done."]},
 ];
-
-const wallEl = document.getElementById('wall');
-const statEl = document.getElementById('stat-row');
 
 function escapeHtml(s){
   return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
 }
 
-// Load visitor entries from localStorage
+function starsHtml(n){
+  n = Math.max(0, Math.min(5, n||0));
+  let s = '';
+  for(let i=1; i<=5; i++) s += i<=n ? '<span>★</span>' : '<span class="empty">★</span>';
+  return `<div class="stars">${s}</div>`;
+}
+
+// Load visitor entries
 let mine = [];
-try {
-  mine = JSON.parse(localStorage.getItem('de_formulieren_filings') || '[]');
-} catch(e){ mine = []; }
+try { mine = JSON.parse(localStorage.getItem('de_formulieren_filings') || '[]'); } catch(e){ mine = []; }
 
-// Combine: newest visitor entries first, then seeds
-const filings = [...mine.slice().reverse(), ...SEED];
+const allFilings = [...mine.slice().reverse(), ...SEED];
 
-// Render stats
-const total = filings.length;
-const locations = new Set(filings.map(f => (f.loc||'').split('·')[0].trim()).filter(Boolean)).size;
-const youHave = mine.length;
-statEl.innerHTML = `
-  <div class="stat"><div class="lbl">Filings on the register</div><div class="val">${total}</div></div>
-  <div class="stat"><div class="lbl">Regions represented</div><div class="val">${locations}</div></div>
-  <div class="stat"><div class="lbl">Yours on this device</div><div class="val">${youHave}</div></div>
+// Stats
+const total = allFilings.length;
+const yours = mine.length;
+const ratings = allFilings.filter(f => f.rating > 0).map(f => f.rating);
+const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length) : 0;
+const fiveStars = allFilings.filter(f => f.rating === 5).length;
+
+const statsEl = document.getElementById('stats');
+statsEl.innerHTML = `
+  <div class="stat"><div class="lbl">Filings on the register</div><div class="val">${total}</div><div class="sub">across regions and forms</div></div>
+  <div class="stat"><div class="lbl">Average rating</div><div class="val">${avg ? avg.toFixed(1) : '—'} <span style="font-size:0.55em;color:var(--gold)">★</span></div><div class="sub">${ratings.length} ratings collected</div></div>
+  <div class="stat"><div class="lbl">Five-star filings</div><div class="val">${fiveStars}</div><div class="sub">strongest sentences on file</div></div>
+  <div class="stat"><div class="lbl">Yours on this device</div><div class="val">${yours}</div><div class="sub">${yours? 'thank you for filing' : 'add yours via the story'}</div></div>
 `;
 
-// Render slips
-filings.forEach((f, i) => {
-  const slip = document.createElement('div');
-  slip.className = 'slip' + (f.isMine ? ' mine' : '') + (i===0 && f.isMine ? ' recent' : '');
-  const body = (f.body || []).map(p => `<p>${escapeHtml(p)}</p>`).join('');
-  slip.innerHTML = `
-    <div class="head"><span class="form-no">${escapeHtml(f.no || '14.3-NEW')}</span><span>${escapeHtml(f.date || '')}</span></div>
-    <div class="body">${body}</div>
-    <div class="meta"><span class="sig">— ${escapeHtml(f.name || 'Anonymous')}</span><span>${escapeHtml(f.loc || '')}</span></div>
-  `;
-  wallEl.appendChild(slip);
+// Filters
+const filtersEl = document.getElementById('filters');
+const filters = [
+  {label:'All', f: () => true, key:'all'},
+  {label:'Yours', f: x => x.isMine, key:'mine'},
+  {label:'★★★★★', f: x => x.rating === 5, key:'5'},
+  {label:'★★★★+', f: x => x.rating >= 4, key:'4'},
+];
+let active = 'all';
+filters.forEach(opt=>{
+  const count = allFilings.filter(opt.f).length;
+  const c = document.createElement('button');
+  c.className = 'chip' + (opt.key===active?' on':'');
+  c.innerHTML = `${opt.label}<span class="num">${count}</span>`;
+  c.onclick = ()=>{ active = opt.key; render(); document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on')); c.classList.add('on'); };
+  filtersEl.appendChild(c);
 });
 
-// Reveal on scroll (intersection observer)
-const slips = document.querySelectorAll('.slip');
-if('IntersectionObserver' in window){
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach((e, idx)=>{
-      if(e.isIntersecting){
-        setTimeout(()=> e.target.classList.add('reveal'), idx * 40);
-        obs.unobserve(e.target);
-      }
-    });
-  }, {rootMargin:'0px 0px -50px 0px'});
-  slips.forEach(s => obs.observe(s));
-} else {
-  slips.forEach(s => s.classList.add('reveal'));
+const wallEl = document.getElementById('wall');
+function render(){
+  const opt = filters.find(o=>o.key===active);
+  const list = allFilings.filter(opt.f);
+  wallEl.innerHTML = '';
+  if(list.length === 0){
+    const e = document.createElement('div');
+    e.className='empty-state';
+    e.textContent = active==='mine'
+      ? 'You haven\'t filed yet. Play the story and write one.'
+      : 'No filings in this category yet.';
+    wallEl.appendChild(e);
+    return;
+  }
+  list.forEach((f, i) => {
+    const slip = document.createElement('div');
+    const high = (f.rating || 0) >= 4;
+    slip.className = 'slip' + (f.isMine ? ' mine' : '') + (high ? ' high-rating' : '');
+    const body = (f.body || []).map(p => `<p>${escapeHtml(p)}</p>`).join('');
+    const fb = f.feedback ? `<div class="feedback">${escapeHtml(f.feedback)}</div>` : '';
+    slip.innerHTML = `
+      <div class="head"><span class="form-no">${escapeHtml(f.no || '14.3-NEW')}</span><span>${escapeHtml(f.date || '')}</span></div>
+      ${f.rating ? starsHtml(f.rating) : ''}
+      <div class="body">${body}</div>
+      ${fb}
+      <div class="meta"><span class="sig">— ${escapeHtml(f.name || 'Anonymous')}</span><span>${escapeHtml(f.loc || '')}</span></div>
+    `;
+    wallEl.appendChild(slip);
+  });
+  // Reveal
+  const slips = wallEl.querySelectorAll('.slip');
+  if('IntersectionObserver' in window){
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach((e, idx)=>{
+        if(e.isIntersecting){
+          setTimeout(()=> e.target.classList.add('reveal'), idx * 40);
+          obs.unobserve(e.target);
+        }
+      });
+    }, {rootMargin:'0px 0px -50px 0px'});
+    slips.forEach(s => obs.observe(s));
+  } else {
+    slips.forEach(s => s.classList.add('reveal'));
+  }
 }
+render();
 </script>
 </body>
 </html>
