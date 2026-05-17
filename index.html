@@ -167,6 +167,17 @@ input,textarea{user-select:text;-webkit-user-select:text}
 .hud .pill .val{color:#fff;font-weight:600;letter-spacing:0.1em}
 .hud .pill .val.bad{color:#ff8a8a}
 .hud .pill .val.good{color:#9bd6a3}
+.muteBtn{
+  position:absolute;top:14px;right:14px;z-index:8;
+  background:rgba(10,8,4,0.55);border:1px solid rgba(201,185,142,0.35);
+  color:var(--cream);padding:6px 9px;font-size:14px;
+  cursor:pointer;font-family:inherit;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  min-width:32px;min-height:32px;pointer-events:auto;
+  transition:background 0.2s;
+}
+.muteBtn:hover{background:rgba(10,8,4,0.85);border-color:var(--gold)}
+.muteBtn.muted{opacity:0.7;color:var(--mute)}
 .flash-bad{animation:flashbad 0.9s ease-out 1}
 .flash-good{animation:flashgood 0.9s ease-out 1}
 @keyframes flashbad{
@@ -572,6 +583,8 @@ input,textarea{user-select:text;-webkit-user-select:text}
 <div class="letterbox top"></div>
 <div class="letterbox bottom"></div>
 
+<button id="muteBtn" class="muteBtn" style="display:none" onclick="toggleMute(event)" title="Mute / unmute sound" aria-label="Mute sound">♪</button>
+
 <!-- ════════ Stage ═════════════════════════════════════════════════════ -->
 <div id="stage"></div>
 
@@ -763,7 +776,27 @@ function ensureAudio(){
   }catch(e){ audio = null; }
   return audio;
 }
+let muted = false;
+try{ muted = localStorage.getItem('de_formulieren_muted') === '1'; }catch(e){}
+
+function toggleMute(ev){
+  muted = !muted;
+  const btn = $('#muteBtn');
+  btn.textContent = muted ? '♪̸' : '♪';
+  btn.classList.toggle('muted', muted);
+  try{ localStorage.setItem('de_formulieren_muted', muted?'1':'0'); }catch(e){}
+  if(!muted) tone(900,0.04,0.035);
+  if(ev) ev.stopPropagation();
+}
+function refreshMuteBtn(){
+  const btn = $('#muteBtn');
+  btn.style.display = 'flex';
+  btn.textContent = muted ? '♪̸' : '♪';
+  btn.classList.toggle('muted', muted);
+}
+
 function tone(freq=720, duration=0.06, gain=0.04, type='triangle'){
+  if(muted) return;
   const ac = ensureAudio(); if(!ac) return;
   if(ac.state==='suspended') ac.resume();
   const o = ac.createOscillator(); const g = ac.createGain();
@@ -817,6 +850,7 @@ function startGame(ev){
   ensureAudio();
   titleCard.classList.add('hide');
   hud.style.display='flex';
+  refreshMuteBtn();
   setTimeout(()=>{ titleCard.style.display='none'; renderBeat('intro'); }, 900);
 }
 
