@@ -230,7 +230,8 @@ footer strong{color:var(--ink);font-weight:600}
     </div>
     <div style="text-align:right">
       <strong>De Formulieren</strong> · Leiden · May 2026<br>
-      <a href="about.html">About</a> · <a href="read.html">Archive</a> · <a href="https://github.com/teshnizi2/de-formulieren">Source</a>
+      <a href="about.html">About</a> · <a href="read.html">Archive</a> · <a href="https://github.com/teshnizi2/de-formulieren">Source</a><br>
+      <a href="#" onclick="clearMyFilings(event)" style="color:var(--mute);font-size:11px;opacity:0.6">Clear my filings on this device</a>
     </div>
   </div>
 </footer>
@@ -266,6 +267,19 @@ const SEED = [
 
 function escapeHtml(s){
   return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+}
+
+function clearMyFilings(ev){
+  if(ev) ev.preventDefault();
+  const stored = JSON.parse(localStorage.getItem('de_formulieren_filings') || '[]');
+  if(stored.length === 0){
+    alert('Nothing to clear. You have not filed anything on this device.');
+    return;
+  }
+  if(!confirm(`Remove ${stored.length} filing${stored.length===1?'':'s'} from this device?\n\nThe seeded case-file entries will remain. Only your own filings will be removed.`)) return;
+  localStorage.removeItem('de_formulieren_filings');
+  localStorage.removeItem('de_formulieren_played');
+  location.reload();
 }
 
 function starsHtml(n){
