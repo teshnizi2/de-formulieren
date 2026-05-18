@@ -755,35 +755,181 @@ input,textarea{user-select:text;-webkit-user-select:text}
 @keyframes toastout{to{opacity:0;transform:translate(-50%,-10px)}}
 
 /* ─── Mobile adjustments ──────────────────────────────────────────────── */
-@media (max-width:680px){
-  .card{bottom:6vh;padding:16px 18px 14px;width:94vw}
-  .card .meta{font-size:9px;margin-bottom:8px}
-  .card .body{font-size:15.5px;line-height:1.5}
-  .choice{font-size:14px;padding:13px 14px;min-height:50px}
-  .choice .hint{font-size:11.5px}
-  .hud{font-size:9px;top:8px;left:8px;right:8px;gap:6px}
-  .hud .left, .hud .right{padding:6px 9px;gap:10px}
-  .letterbox{height:2vh}
-  .notif{top:9%;right:50%;left:50%;transform:translateX(-50%);width:90vw}
-  .notif h3{font-size:13px}
-  .notif p{font-size:12px}
-  #title{padding:24px 18px}
-  #title h1{font-size:38px}
-  #title .quote{font-size:14px;padding:10px 0 10px 14px}
-  #title .start-btn{padding:14px 28px;font-size:11px}
-  .form{padding:20px 18px 18px}
-  .form h2{font-size:22px}
-  .form .field input, .form .field textarea{font-size:15.5px}
-  .refusal-overlay{font-size:54px;padding:6px 18px;border-width:4px}
-  .seal-overlay{width:150px;height:150px;font-size:10px}
-  #endcard h2{font-size:26px}
+@media (max-width:768px){
+  /* No letterbox on phone — every pixel matters */
+  .letterbox{display:none}
+
+  /* Background fills full viewport, no padding */
+  .bg{inset:0}
+
+  /* Slow down Ken Burns on phones — less jank */
+  .scene.active .bg{animation-duration:50s}
+
+  /* HUD: compact, top with safe area */
+  .hud{
+    top:max(8px, env(safe-area-inset-top));
+    left:8px;right:8px;gap:6px;font-size:9px;letter-spacing:0.16em;
+  }
+  .hud .left, .hud .right{
+    padding:5px 9px;gap:8px;
+    background:rgba(10,8,4,0.78);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+  }
+  /* Compact HUD: show short labels in gold + values in white */
+  .hud .pill .lbl{
+    font-size:8px;letter-spacing:0.15em;
+    color:var(--gold);opacity:0.85;
+    margin-right:3px;
+  }
+  /* Shorten the labels via content swap */
+  .hud .left .pill:first-child .lbl{font-size:0}
+  .hud .left .pill:first-child .lbl::after{content:'TIME';font-size:8px;letter-spacing:0.15em}
+  .hud .left .pill:nth-child(2) .lbl{font-size:0}
+  .hud .left .pill:nth-child(2) .lbl::after{content:'CH';font-size:8px;letter-spacing:0.15em}
+  .hud .right .pill:first-child .lbl{font-size:0}
+  .hud .right .pill:first-child .lbl::after{content:'SCORE';font-size:8px;letter-spacing:0.15em}
+  .hud .right .pill:nth-child(2) .lbl{font-size:0}
+  .hud .right .pill:nth-child(2) .lbl::after{content:'★';font-size:11px;letter-spacing:0}
+  .hud .pill .val{font-size:11px;letter-spacing:0.05em}
+
+  /* Progress bar more visible */
+  .progress{height:4px}
+  .chapter-dots{display:none !important}
+
+  /* Mute button bigger */
+  .muteBtn{font-size:18px;min-width:32px;min-height:32px;padding:4px 8px}
+
+  /* Narration card: full width, pinned to bottom with safe area */
+  .card{
+    bottom:0;left:0;right:0;
+    transform:none;
+    width:100%;
+    margin:0;
+    padding:14px 16px max(18px, calc(14px + env(safe-area-inset-bottom)));
+    border-left:none;
+    border-top:3px solid var(--gold);
+    border-bottom:none;
+    background:rgba(10,8,4,0.88);
+    border-radius:0;
+  }
+  .card .meta{
+    font-size:9px;margin-bottom:6px;
+    flex-wrap:wrap;gap:6px;
+  }
+  .card .meta .right{font-size:9px}
+  .card .body{font-size:16.5px;line-height:1.5}
+
+  /* Choices: big tap targets */
+  .choices{gap:8px;margin-top:14px}
+  .choice{
+    font-size:15.5px;padding:14px 14px;min-height:58px;
+    border-width:1px;
+  }
+  .choice .key{font-size:11px;flex:0 0 18px;padding-top:2px}
+  .choice .hint{font-size:12.5px;margin-top:4px;opacity:0.7}
+
+  /* Notification stays at top, more readable */
+  .notif{
+    top:max(70px, calc(env(safe-area-inset-top) + 70px));
+    right:8px;left:8px;width:auto;max-width:none;
+    transform:none;
+  }
+  .notif h3{font-size:14px}
+  .notif p{font-size:13px}
+
+  /* Title card: compact + safe area */
+  #title{
+    padding:max(28px, env(safe-area-inset-top)) 22px max(22px, env(safe-area-inset-bottom));
+    justify-content:center;
+  }
+  #title .crest{width:62px;margin-bottom:4px}
+  #title .stamp{font-size:9px;margin-bottom:10px;letter-spacing:0.20em}
+  #title h1{font-size:32px;margin-bottom:6px}
+  #title h1 .sub{font-size:0.40em;margin-top:3px}
+  #title .quote{
+    font-size:15px;padding:10px 0 10px 14px;
+    margin:0 0 22px;line-height:1.5;
+  }
+  #title .start-btn{padding:18px 40px;font-size:13px;letter-spacing:0.22em;font-weight:700}
+  #title .credits{font-size:8.5px;letter-spacing:0.10em;padding:0 14px;line-height:1.5;bottom:max(10px, env(safe-area-inset-bottom))}
+
+  /* Case-select: bigger tap targets, full width cards */
+  #case-select{padding:max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom))}
+  #case-select h2{font-size:28px;margin-bottom:8px}
+  #case-select .top-stamp{font-size:9px;letter-spacing:0.20em;margin-bottom:10px}
+  #case-select .sub{font-size:14px;margin-bottom:18px;line-height:1.45}
+  .case-grid{gap:14px;grid-template-columns:1fr}
+  .case-card .case-thumb{height:140px}
+  .case-card .case-body{padding:14px 16px 16px}
+  .case-card h3{font-size:20px}
+  .case-card .case-loc{font-size:9px;margin-bottom:8px}
+  .case-card .case-blurb{font-size:14px;margin-bottom:12px}
+  .case-card .case-play{padding:11px 18px;font-size:11px;width:100%;text-align:center}
+  .case-back{font-size:10px;margin-top:16px}
+
+  /* Form: full screen modal on phone */
+  .formwrap{
+    padding:0;align-items:stretch;
+    background:rgba(5,7,9,0.65);
+  }
+  .form{
+    width:100%;max-width:none;
+    max-height:none;height:100vh;height:100dvh;
+    padding:max(64px, calc(54px + env(safe-area-inset-top))) 18px max(24px, calc(18px + env(safe-area-inset-bottom)));
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .form .head{padding-bottom:8px;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+  .form h2{font-size:24px;margin-bottom:6px}
+  .form .lede{font-size:13.5px;margin-bottom:18px}
+  .form .field{margin-bottom:18px}
+  .form .field label{font-size:9.5px}
+  .form .field input, .form .field textarea{font-size:16px;padding:10px 0 8px}
+  /* iOS won't auto-zoom on 16px+ font inputs — important! */
+  .form .field textarea{min-height:72px}
+  .form .actions{
+    margin-top:24px;padding-top:14px;
+    flex-direction:column;align-items:stretch;gap:12px;
+  }
+  .form .sig-line{min-height:48px;width:100%;font-size:24px;flex:none}
+  .form .send-btn{padding:16px;font-size:12px;width:100%;letter-spacing:0.22em}
+  .stars-row{gap:2px;justify-content:center;margin:8px 0 0}
+  .star-btn{font-size:38px;padding:6px 8px}
+  .stars-label{display:block;text-align:center;margin:8px 0 0;font-size:13px}
+
+  /* Stamp + seal smaller on phone */
+  .refusal-overlay{font-size:48px;padding:6px 16px;border-width:4px;letter-spacing:0.06em}
+  .seal-overlay{width:160px;height:160px;font-size:11px}
+
+  /* End card: scrollable, mobile-stacked buttons */
+  #endcard{padding:max(24px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom));justify-content:flex-start}
+  #endcard .ribbon{font-size:9px;letter-spacing:0.22em;margin-bottom:10px}
+  #endcard h2{font-size:26px;margin-bottom:12px}
   #endcard p{font-size:15px}
-  #endcard .yourwords{font-size:15px;padding:18px 20px}
+  #endcard .yourwords{font-size:15px;padding:18px 18px;width:100%}
+  #endcard .stats{gap:10px;margin:14px 0 18px;width:100%}
+  #endcard .stat{padding:10px 14px;flex:1;min-width:0;max-width:140px}
+  #endcard .stat .val{font-size:18px}
+  #endcard .actions{flex-direction:column;gap:8px;width:100%;max-width:340px;margin-top:8px}
+  #endcard button{width:100%;padding:14px 20px;font-size:11px}
+  #endcard button.big-try{padding:18px 22px;font-size:12px}
+  .missed-hint{font-size:13px!important;padding:12px 16px;margin:12px 0 14px!important}
 }
+
 @media (max-width:380px){
-  .card .body{font-size:14.5px}
-  #title h1{font-size:32px}
-  .refusal-overlay{font-size:42px}
+  .card .body{font-size:15.5px}
+  #title h1{font-size:28px}
+  .refusal-overlay{font-size:40px}
+  .case-card .case-thumb{height:120px}
+  .case-card h3{font-size:19px}
+  .form h2{font-size:22px}
+  .star-btn{font-size:34px}
+}
+
+/* iOS-specific: prevent zoom on input focus */
+@supports (-webkit-touch-callout: none){
+  .form .field input, .form .field textarea{font-size:16px}
 }
 </style>
 </head>
